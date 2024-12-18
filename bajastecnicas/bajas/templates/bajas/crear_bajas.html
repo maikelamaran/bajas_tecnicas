@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}
+    Crear Bajas
+{% endblock %} 
+{% block content %}
+<section class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center">Crear Registro</h1>
+            <form action="{% url 'bajas:crear-baja' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}  <!-- Cambia {{ form }} por {{ form.as_p }} para mejorar la separación entre campos -->
+                <button class="btn btn-primary d-block mx-auto mt-4">Añadir Baja</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

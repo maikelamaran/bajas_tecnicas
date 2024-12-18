@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+    {{ baja.no_inv }} - Detalles de Baja
+{% endblock %}
+
+{% block content %}
+<div class="container mt-1">
+    <a href="{% url 'bajas:list' %}" class="btn btn-outline-primary mb-3">Volver al listado</a>
+    <div class="row">
+        
+        <!-- Imagen de la Baja -->
+        <div class="col-md-6">
+            <img class="img-fluid rounded shadow mb-3" 
+                 src="{% if baja.foto %}{{ baja.foto.url }}{% else %}{% static 'bajastecnicas/icons/fallback.jpg' %}{% endif %}" 
+                 alt="Foto de la Baja">
+        </div>
+        
+        <!-- Detalles de la Baja -->
+        <div class="col-md-6">
+            <h2 class="text-primary">{{ baja.no_inv|default:baja.inm_herramienta }}</h2>
+            <h4 class="text-muted">{{ baja.denominacion_SAP }}</h4>
+
+            <p class="fs-5"><strong>Fecha creación</strong> {{ baja.date }}</p>
+            <p class="fs-5"><strong>Unidad Org:</strong> {{ baja.unidad_org }}</p>
+            <p class="fs-5"><strong>Motivo de Baja:</strong> {{ baja.motivo_baja }}</p>
+            <p class="fs-5"><strong>Mov AFT:</strong>
+                {% if baja.mov_aft == 'si' %}
+                    <span class="badge bg-success">{{ baja.mov_aft }}</span>                    
+                {% else %}
+                    <span class="badge bg-danger">{{ baja.mov_aft }}</span>
+                {% endif %}
+                 
+                </p>
+            <p class="fs-5"><strong>Estado:</strong> 
+                {% if baja.estado == 'no procede' %}
+                    <span class="badge bg-danger">{{ baja.estado }}</span>
+                {% elif baja.estado == 'procede' %}
+                    <span class="badge bg-success">{{ baja.estado }}</span>
+                {% else %}
+                    <span class="badge bg-warning">{{ baja.estado }}</span>
+                {% endif %}
+            </p>
+            <p class="fs-5"><strong>Destino Final:</strong> {{ baja.destino_final }}</p>
+            <p class="fs-5"><strong>Años de Explotación:</strong> {{ baja.años_explotacion }}</p>
+            <p class="fs-5"><strong>Valor Residual:</strong> ${{ baja.valor_residual|floatformat:2|intcomma }}</p>
+
+
+            <hr class="my-4">
+
+            <h5 class="text-dark">Detalles Adicionales</h5>
+            <ul class="list-unstyled">
+                <li><strong>Anexo A:</strong> 
+                    {% if baja.anexo_a == 'si' %}
+                    <span class="badge bg-success">{{ baja.anexo_a }}</span>                    
+                    {% else %}
+                        <span class="badge bg-danger">{{ baja.anexo_a }}</span>
+                    {% endif %}
+                   
+                </li>
+                <li><strong>Anexo A1:</strong>
+                    {% if baja.anexo_a1 == 'si' %}
+                    <span class="badge bg-success">{{ baja.anexo_a1 }}</span>                    
+                    {% else %}
+                        <span class="badge bg-danger">{{ baja.anexo_a1 }}</span>
+                    {% endif %}
+                     
+                    </li>
+                <li><strong>Anexo A2:</strong>
+                    {% if baja.anexo_a2 %}
+                    <span class="badge bg-success">{{ baja.anexo_a2 }}</span>                    
+                    {% else %}
+                        <span class="badge bg-danger">no</span>
+                    {% endif %}
+                     
+                    </li>
+                <li><strong>Anexo A3:</strong>
+                    {% if baja.anexo_a3%}
+                    <span class="badge bg-success">{{ baja.anexo_a3 }}</span>                    
+                    {% else %}
+                        <span class="badge bg-danger">no</span>
+                    {% endif %}
+                     
+                    </li>
+                <li><strong>Observaciones:</strong> {{ baja.observaciones }}</li>
+            </ul>
+
+            <hr class="my-4">
+            
+            <h5 class="text-dark">Otros Detalles</h5>
+            <p>{{ baja.detalle }}</p>
+        </div>
+    </div>
+
+    
+</div>
+{% endblock %}

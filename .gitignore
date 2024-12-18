@@ -1,0 +1,33 @@
+# Ignorar el entorno virtual
+venv/
+
+
+# Ignorar la carpeta de medios (imágenes, documentos, etc.)
+bajastecnicas/media/
+
+# Ignorar archivos Python compilados
+*.pyc
+__pycache__/
+
+# Ignorar bases de datos SQLite
+bajastecnicas/db.sqlite3/
+*.sqlite3
+
+# Ignorar la carpeta de assets
+bajastecnicas/assets/
+# Ignorar el entorno virtual
+
+
+# Ignorar la carpeta de medios (imágenes, documentos, etc.)
+bajastecnicas/media/
+
+# Ignorar archivos Python compilados
+*.pyc
+__pycache__/
+
+# Ignorar bases de datos SQLite
+bajastecnicas/db.sqlite3/
+*.sqlite3
+
+# Ignorar la carpeta de assets
+bajastecnicas/assets/

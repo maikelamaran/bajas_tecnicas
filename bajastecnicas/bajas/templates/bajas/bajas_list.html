@@ -1,0 +1,283 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %}
+    Solicitudes 
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Filtros en la parte superior -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 class="mb-3">Listado de Solicitudes Bajas Técnicas</h2><br>
+            <span class="mb-3 badge rounded-pill text-bg-primary fs-3">Total: {{ bajas.paginator.count }}</span>
+           
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="input-group w-50">
+                    <form class="row gy-3" method="get" action="{% url "bajas:list" %}">
+                        <input type="text" class="form-control" name="noinv" autocomplete="off" placeholder="Buscar por número de inventario" aria-label="Buscar" aria-describedby="search-addon">
+                        <button class="btn btn-outline-primary" type="submit" id="search-addon">Buscar</button>
+                    </form>
+                </div>
+                <!-- Aquí puedes agregar filtros adicionales -->
+                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filters" aria-expanded="false" aria-controls="filters">
+                    Filtros <i class="fas fa-filter"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+     <!-- Paginador -->
+     <div class="d-flex justify-content-center">
+        <nav>
+          <ul class="pagination">
+            {% if bajas.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}" aria-label="Primera">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ bajas.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}" aria-label="Anterior">
+                <span aria-hidden="true">&lt;</span>
+              </a>
+            </li>
+            {% endif %}
+            
+            <li class="page-item active">
+              <span class="page-link">{{ bajas.number }}</span>
+            </li>
+            
+            {% if bajas.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ bajas.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}" aria-label="Siguiente">
+                <span aria-hidden="true">&gt;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?page={{ bajas.paginator.num_pages }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}" aria-label="Última">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+    </div>
+      <!--fin del paginador-->
+    <!-- Filtros colapsables -->
+    <div class="collapse" id="filters">
+        <div class="card card-body mb-4">
+            <h5>Filtrar por:</h5>
+            <form  method="get" action="{% url "bajas:list" %}">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="estado" class="form-label">Estado</label>
+                            <select class="form-select" id="estado" name="estado">
+                                <option value="">Seleccionar Estado</option>
+                                <option value="No Procede">No Procede</option>
+                                <option value="Presentar a CBT">Presentar a CBT</option>
+                                <option value="Presentar a CBN">Presentar a CBN</option>
+                                <option value="Espera respuesta cbn">Espera respuesta cbn</option>
+                                <option value="Aprobado por CBT">Aprobado por CBT</option>
+                                <option value="Aprobado por CBN">Aprobado por CBN</option>
+                                <option value="No aprobado (reubicar)">No aprobado (reubicar)</option>
+                                <option value="No aprobado">No aprobado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="motivo_baja" class="form-label">Motivo de Baja</label>
+                            <select class="form-select" id="motivo_baja" name="motivo_baja">
+                                <option value="">Seleccionar Motivo</option>
+                                <option value="obsolencia">Obsolescencia</option>
+                                <option value="deterioro">Deterioro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="destino_final" class="form-label">Destino Final</label>
+                            <select class="form-select" id="destino_final"name="destino_final">
+                                <option value="">Seleccionar Destino</option>
+                                <option value="radioaficionados">radioaficionados</option>
+                                <option value="materia prima">materia prima</option>                                
+                                <option value="otro">otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="unidad_org" class="form-label">Unidad Organizativa</label>
+                            <select class="form-select" id="unidad_org" name="unidad_org">
+                                <option value="">Seleccionar Unidad Org</option>
+                                <option value="DTAR, Dirección">DTAR, Dirección</option>
+                                <option value="DTAR, Dpto. Coordinación General">DTAR, Dpto. Coordinación General</option>
+                                <option value="DTAR, Dpto. Economía">DTAR, Dpto. Economía</option>
+                                <option value="DTAR, Dpto. Capital Humano">DTAR, Dpto. Capital Humano</option>
+                                <option value="DTAR, Dpto. Centro de Dirección Territorial">DTAR, Dpto. Centro de Dirección Territorial</option>
+                                <option value="DTAR, Dpto. Logística y Servicios, Grupo Logística">DTAR, Dpto. Logística y Servicios, Grupo Logística</option>
+                                <option value="DTAR, Dpto. Logística y Servicios">DTAR, Dpto. Logística y Servicios</option>
+                                <option value="DTAR, Dpto. Logística y Servicios, Grupo Servicios Generales">DTAR, Dpto. Logística y Servicios, Grupo Servicios Generales</option>
+                                <option value="DTAR, Dpto. Logística y Servicios, Grupo Transporte">DTAR, Dpto. Logística y Servicios, Grupo Transporte</option>
+                                <option value="DTAR, Dpto. TI">DTAR, Dpto. TI</option>
+                                <option value="DTAR, Dpto. Comercial">DTAR, Dpto. Comercial</option>
+                                <option value="DTAR, Dpto. Inversiones">DTAR, Dpto. Inversiones</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red">DTAR, Dpto. Operaciones de la Red</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Administración de la Red">DTAR, Dpto. Operaciones de la Red, Grupo Administración de la Red</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Red de Acceso">DTAR, Dpto. Operaciones de la Red, Grupo Red de Acceso</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Red de Acceso, Unidad Operativa">DTAR, Dpto. Operaciones de la Red, Grupo Red de Acceso, Unidad Operativa</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Red de Acceso, Unidad Fibra Óptica">DTAR, Dpto. Operaciones de la Red, Grupo Red de Acceso, Unidad Fibra Óptica</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Red de Acceso, Unidad Control de la Operación">DTAR, Dpto. Operaciones de la Red, Grupo Red de Acceso, Unidad Control de la Operación</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión">DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión, Unidad de Transmisión">DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión, Unidad de Transmisión</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión, Unidad de Tráfico y Optimización">DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión, Unidad de Tráfico y Optimización</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión, Unidad de Supervisión">DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión, Unidad de Supervisión</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión, Unidad de Control">DTAR, Dpto. Operaciones de la Red, Grupo Supervisión y Gestión, Unidad de Control</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica">DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica, Unidad Energética, Clima y SPI">DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica, Unidad Energética, Clima y SPI</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica, Unidad Pizarras Privadas">DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica, Unidad Pizarras Privadas</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica, Unidad Redes Inalámbricas">DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica, Unidad Redes Inalámbricas</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica, Unidad COCC13">DTAR, Dpto. Operaciones de la Red, Grupo Intervención Técnica, Unidad COCC13</option>
+                                <option value="DTAR, Dpto. Operaciones de la Red, Grupo Logística y Talleres">DTAR, Dpto. Operaciones de la Red, Grupo Logística y Talleres</option>
+                                <option value="DTAR, CTP Artemisa">DTAR, CTP Artemisa</option>
+                                <option value="DTAR, CTP Artemisa, CTA Guanajay">DTAR, CTP Artemisa, CTA Guanajay</option>
+                                <option value="DTAR, CTP Artemisa, CTA Caimito">DTAR, CTP Artemisa, CTA Caimito</option>
+                                <option value="DTAR, CTP ZEDM">DTAR, CTP ZEDM</option>
+                                <option value="DTAR, CTP ZEDM, CTA Mariel">DTAR, CTP ZEDM, CTA Mariel</option>
+                                <option value="DTAR, CTP Guira de Melena">DTAR, CTP Guira de Melena</option>
+                                <option value="DTAR, CTP Guira de Melena, CTA San Antonio de los Baños">DTAR, CTP Guira de Melena, CTA San Antonio de los Baños</option>
+                                <option value="DTAR, CTP Guira de Melena, CTA Bauta">DTAR, CTP Guira de Melena, CTA Bauta</option>
+                                <option value="DTAR, CTP Guira de Melena, CTA Alquizar">DTAR, CTP Guira de Melena, CTA Alquizar</option>
+                                <option value="DTAR, CTP San Cristobal">DTAR, CTP San Cristobal</option>
+                                <option value="DTAR, CTP San Cristobal, CTA Candelaria">DTAR, CTP San Cristobal, CTA Candelaria</option>
+                                <option value="DTAR, CTP San Cristobal, CTA Bahia Honda">DTAR, CTP San Cristobal, CTA Bahia Honda</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="fecha_inicio" class="form-label">Fecha de Baja (Inicio)</label>
+                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="fecha_fin" class="form-label">Fecha de Baja (Fin)</label>
+                            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="fecha_inicio_solic" class="form-label">Fecha de Solicitud (Inicio)</label>
+                            <input type="date" class="form-control" id="fecha_inicio_solic" name="fecha_inicio_solic">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="fecha_fin_solic" class="form-label">Fecha de Solicitud (Fin)</label>
+                            <input type="date" class="form-control" id="fecha_fin_solic" name="fecha_fin_solic">
+                        </div>
+                    </div>
+                    <!--anexos filtros-->
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="anexo_a" class="form-label">Anexo A (solicitud)</label>
+                            <select class="form-select" id="anexo_a" name="anexo_a">
+                                <option value="">Seleccionar valor</option>
+                                <option value="si">si</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="anexo_a1" class="form-label">Anexo A1</label>
+                            <select class="form-select" id="anexo_a1" name="anexo_a1">
+                                <option value="">Seleccionar valor</option>
+                                <option value="si">si</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="anexo_a2" class="form-label">Anexo A2</label>
+                            <input type="text" class="form-control" id="anexo_a2" autocomplete="off" name="anexo_a2">                                
+                            </input>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="anexo_a3" class="form-label">Anexo A3</label>
+                            <input type="text" class="form-control" id="anexo_a3" autocomplete="off" name="anexo_a3">                                
+                            </input>
+                        </div>
+                    </div>
+                    
+                    <!--fin anexos filtros-->
+                </div>
+                <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Listado de Bajas en Tabla -->
+    {% if bajas %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Acciones</th>
+                    <th>Ver Detalles</th>
+                    <th>No. Inventario <br> Inm_herramienta</th>
+                    <th>Denominacion SAP</th>
+                    <th>Unidad Organizativa</th>
+                    <th>Motivo de Baja</th>
+                    <th>Destino Final</th>
+                    <th>Años Explotación</th>
+                    <th>Valor Residual</th>                    
+                    <th>Fecha creación</th>
+                    <th>Fecha Solicitud</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for baja in bajas %}
+                <tr>
+                    <td>                        
+                        <div class="d-flex justify-content-start">
+                            <a href="{% url 'bajas:editar_baja' baja.id %}" class="btn btn-secondary me-2">Editar</a>
+                            <form action="{% url 'bajas:eliminar_baja' baja.id %}" method="post" class="mb-0">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>                        
+                    </td>
+                    <td><a href="{% url 'bajas:baja-page' id=baja.id %}" class="btn btn-outline-primary btn-sm">Ver detalles</a></td>
+                    <td>{{ baja.no_inv|default:baja.inm_herramienta }}</td>
+                    <td>{{ baja.denominacion_SAP }}</td>
+                    <td>{{ baja.unidad_org }}</td>
+                    <td>{{ baja.motivo_baja }}</td>
+                    <td>{{ baja.destino_final }}</td>
+                    <td>{{ baja.años_explotacion }}</td>
+                    <td>${{ baja.valor_residual }}</td>
+                    <td>{{ baja.date }}</td>
+                    <td>{{ baja.fecha_solicitud }}</td>                   
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="col-md-12">
+        <div class="alert alert-warning text-center fs-4" role="alert">
+            No se encontraron solicitudes.
+        </div>
+    </div>
+{% endif %}
+    
+</div>
+{% endblock %}
