@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lr086f!(j-h6@#kjz3p7jkd3-mh$0#q%gb9^qkaud-zcs7xtu+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['mikerosy.pythonanywhere.com']
 
 
 # Application definition
@@ -82,14 +82,25 @@ WSGI_APPLICATION = 'bajastecnicas.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'bajas_tecnicas',  # Cambia esto al nombre de tu base de datos en MySQL
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': '127.0.0.1',  # O 'localhost', dependiendo de tu configuración
+#         'PORT': '3307',  # Puerto de MySQL
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bajas_tecnicas',  # Cambia esto al nombre de tu base de datos en MySQL
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',  # O 'localhost', dependiendo de tu configuración
-        'PORT': '3307',  # Puerto de MySQL
+        'NAME': 'mikerosy$default',  # Cambia esto al nombre de tu base de datos en MySQL
+        'USER': 'mikerosy',
+        'PASSWORD': 'fuFY#z8PXub!ce8',
+        'HOST': 'mysql.pythonanywhere-services.com',  # O 'localhost', dependiendo de tu configuración
+        'PORT': '3306',  # Puerto de MySQL
     }
 }
 
