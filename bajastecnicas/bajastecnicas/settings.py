@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': 'mikerosy$default',  # Cambia esto al nombre de tu base de datos en MySQL
         'USER': 'mikerosy',
         'PASSWORD': 'fuFY#z8PXub!ce8',
-        'HOST': 'mysql.pythonanywhere-services.com',  # O 'localhost', dependiendo de tu configuración
+        'HOST': 'mikerosy.mysql.pythonanywhere-services.com',  # O 'localhost', dependiendo de tu configuración
         'PORT': '3306',  # Puerto de MySQL
     }
 }
