@@ -76,12 +76,13 @@ WSGI_APPLICATION = 'bajastecnicas.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -93,16 +94,16 @@ WSGI_APPLICATION = 'bajastecnicas.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mikerosy$default',  # Cambia esto al nombre de tu base de datos en MySQL
-        'USER': 'mikerosy',
-        'PASSWORD': 'fuFY#z8PXub!ce8',
-        'HOST': 'mikerosy.mysql.pythonanywhere-services.com',  # O 'localhost', dependiendo de tu configuración
-        'PORT': '3306',  # Puerto de MySQL
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'mikerosy$default',  # Cambia esto al nombre de tu base de datos en MySQL
+#         'USER': 'mikerosy',
+#         'PASSWORD': 'fuFY#z8PXub!ce8',
+#         'HOST': 'mikerosy.mysql.pythonanywhere-services.com',  # O 'localhost', dependiendo de tu configuración
+#         'PORT': '3306',  # Puerto de MySQL
+#     }
+# }
 
 
 # Password validation
