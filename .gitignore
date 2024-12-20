@@ -26,8 +26,8 @@ bajastecnicas/media/
 __pycache__/
 
 # Ignorar bases de datos SQLite
-bajastecnicas/db.sqlite3/
-*.sqlite3
+# bajastecnicas/db.sqlite3/
+# *.sqlite3
 
 # Ignorar la carpeta de assets
 bajastecnicas/assets/
