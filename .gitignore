@@ -17,10 +17,6 @@ bajastecnicas/db.sqlite3/
 bajastecnicas/assets/
 # Ignorar el entorno virtual
 
-
-# Ignorar la carpeta de medios (imágenes, documentos, etc.)
-bajastecnicas/media/
-
 # Ignorar archivos Python compilados
 *.pyc
 __pycache__/
