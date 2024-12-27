@@ -17,18 +17,15 @@
       <ul class="navbar-nav me-auto">
         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'bajas:list' %}">Solicitudes</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'bajas:crear-baja' %}">Crear Solicitud</a></li>
-
-        {% comment %} <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'cars:list' %}">Bajas</a></li>
         {% if user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link new-car" href="{% url 'cars:new-car' %}"><i class="fas fa-car"></i> New Car</a></li>        
+          <li class="nav-item"><a class="nav-link" href="{% url 'bajas:crear-baja' %}">Crear Solicitud</a></li>
         {% else %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'users:register' %}">Register</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'users:register' %}">Registrarse</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">Login</a></li>
-        {% endif %} {% endcomment %}
+        {% endif %}        
       </ul>
-      {% comment %} <ul class="navbar-nav ms-auto"> <!-- Alineación a la derecha -->
+      
+      <ul class="navbar-nav ms-auto"> <!-- Alineación a la derecha -->
         {% if user.is_authenticated %}
           <li class="nav-item">
             <form action="{% url 'users:logout' %}" method="post">
@@ -37,7 +34,7 @@
             </form>
           </li>
         {% endif %}
-      </ul> {% endcomment %}
+      </ul> 
     </div>
   </div>
 </nav>

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',#para que te permita |intcomma que pone coma en los digitos para separar
     'bajas',
+    'users',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

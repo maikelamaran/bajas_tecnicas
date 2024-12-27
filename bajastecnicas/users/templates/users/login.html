@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% load widget_tweaks %} 
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="col-md-4">
+        <h1 class="text-center mb-4">Login</h1>
+        
+        <!-- Si hay errores de formulario, se muestran en una alerta -->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        <!-- Formulario de Login -->
+        <form class="form-with-validation" action="{% url 'users:login' %}" method="post">
+            {% csrf_token %}
+            
+            <!-- Campo para el username -->
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Username</label>
+                {{ form.username|add_class:"form-control" }}
+            </div>
+
+            <!-- Campo para la contraseña -->
+            <div class="mb-3">
+                <label for="id_password" class="form-label">Password</label>
+                {{ form.password|add_class:"form-control" }}
+            </div>
+
+            <!-- Campo oculto para redirigir después del login si se pasa el parámetro 'next' -->
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}" />
+            {% endif %}
+
+            <!-- Botón de submit -->
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+
+        <!-- Enlaces de registro o recuperación de contraseña -->
+        <div class="mt-3 text-center">
+            <p>Don't have an account? <a href="{% url 'users:register' %}">Register</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
