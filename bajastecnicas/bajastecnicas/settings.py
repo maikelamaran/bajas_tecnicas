@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lr086f!(j-h6@#kjz3p7jkd3-mh$0#q%gb9^qkaud-zcs7xtu+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mikerosy.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -59,7 +59,7 @@ ROOT_URLCONF = 'bajastecnicas.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -150,7 +150,7 @@ STATIC_ROOT = BASE_DIR / 'assets'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 STATICFILES_DIRS = [
-	BASE_DIR / 'static' 
+	BASE_DIR / 'static'
 ]
 
 # Default primary key field type
