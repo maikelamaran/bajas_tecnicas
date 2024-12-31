@@ -193,12 +193,27 @@ body {
 }
 
 
+/* Estilos para la barra de navegación */
+
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler-icon {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+/* Estilos para la barra de navegación */
 
   /* Mejora en la visibilidad de los links */
   .navbar-nav .nav-link {
     font-size: 1.1rem;
     font-weight: 500;
     transition: color 0.3s, background-color 0.3s;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
 }
 .navbar-nav .nav-link:hover {
     color: #ffffff;
@@ -219,6 +234,7 @@ body {
 /* Mejorar la apariencia de la navbar */
 .navbar {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
 }
 /* Aumentar el espaciado entre items */
 .navbar-nav {
