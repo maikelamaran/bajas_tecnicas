@@ -1,5 +1,6 @@
 import datetime
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
 from django.db import models
 from django.db.models import Q
 from datetime import datetime
@@ -109,9 +110,10 @@ def eliminar_baja(request,id):
     if request.method == 'POST':
         baja.delete()
         return redirect('bajas:list')
-    
+
 def editar_baja(request, id):
     baja = get_object_or_404(Bajas, pk=id)
+    is_ledesma = request.user.username.lower() == 'ledesma'
     if request.method == 'POST':
         form = BajasForm(request.POST, request.FILES, instance=baja)
         if form.is_valid():
@@ -119,7 +121,7 @@ def editar_baja(request, id):
             return redirect('bajas:list')
     else:
         form = BajasForm(instance=baja)
-    return render(request, 'bajas/editar_bajas.html', {'form': form, 'baja': baja})
+    return render(request, 'bajas/editar_bajas.html', {'form': form, 'baja': baja, 'is_ledesma': is_ledesma})
 
 
     
