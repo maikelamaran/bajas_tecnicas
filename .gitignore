@@ -3,7 +3,7 @@ venv/
 
 
 # Ignorar la carpeta de medios (imágenes, documentos, etc.)
-bajastecnicas/media/
+# bajastecnicas/media/
 
 # Ignorar archivos Python compilados
 *.pyc
