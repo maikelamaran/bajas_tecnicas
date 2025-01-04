@@ -27,3 +27,7 @@ bajastecnicas/db.sqlite3/
 
 # Ignorar la carpeta de assets
 bajastecnicas/assets/
+
+*.swp
+*.swo
+
