@@ -105,11 +105,19 @@ def crear_baja(request):
 
     return render(request, 'bajas/crear_bajas.html', {'form': form})
 
-def eliminar_baja(request,id):
+def eliminar_baja(request, id):
+    is_ledesma = request.user.username.lower() == 'ledesma'
     baja = get_object_or_404(Bajas, pk=id)
-    if request.method == 'POST':
-        baja.delete()
-        return redirect('bajas:list')
+
+    if request.method == 'POST':  # verifica si el método es POST
+        if is_ledesma:  # Si el usuario es 'ledesma', permite la eliminación
+            baja.delete()
+            return redirect('bajas:list')  # Redirige a la lista después de eliminar
+        else:
+            return render(request, 'bajas/acceso_denegado.html')  # Si no es 'ledesma', muestra el acceso denegado
+
+    # Si no es POST, también puede manejarse aquí (aunque generalmente los formularios de eliminación usan POST)
+    return render(request, 'bajas/acceso_denegado.html') 
 
 def editar_baja(request, id):
     baja = get_object_or_404(Bajas, pk=id)

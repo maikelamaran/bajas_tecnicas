@@ -3,7 +3,24 @@
 {% block title %}
     Solicitudes 
 {% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Captura todos los botones "Eliminar" y asigna el formulario de eliminación al modal
+        const deleteButtons = document.querySelectorAll('[data-bs-target="#confirmDeleteModal"]');
+        const deleteForm = document.getElementById('deleteForm');
 
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const bajaId = button.getAttribute('data-id');  // Obtener el ID de la baja
+                console.log('bajaId:', bajaId);  // Verifica el valor de bajaId en la consola del navegador
+                const actionUrl = `{% url 'bajas:eliminar_baja' '0' %}`.replace('0', bajaId);  // Reemplaza '0' con el ID de la baja
+                deleteForm.setAttribute('action', actionUrl);  // Asigna el action dinámicamente
+            });
+        });
+    });
+</script>
+{% endblock %}
 {% block content %}
 <div class="container mt-4">
     <!-- Filtros en la parte superior -->
@@ -246,14 +263,17 @@
             <tbody>
                 {% for baja in bajas %}
                 <tr>
-                    <td>                        
+                    <td>
                         <div class="d-flex justify-content-start">
                             <a href="{% url 'bajas:editar_baja' baja.id %}" class="btn btn-secondary me-2">Editar</a>
-                            <form action="{% url 'bajas:eliminar_baja' baja.id %}" method="post" class="mb-0">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
-                        </div>                        
+                            <button 
+                                class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#confirmDeleteModal"
+                                data-id="{{ baja.id }}">
+                                Eliminar
+                            </button>
+                        </div>
                     </td>
                     <td><a href="{% url 'bajas:baja-page' id=baja.id %}" class="btn btn-outline-primary btn-sm">Ver detalles</a></td>
                     <td>{{ baja.no_inv|default:baja.inm_herramienta }}</td>
@@ -279,5 +299,27 @@
     </div>
 {% endif %}
     
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar esta solicitud? Esta acción no se puede deshacer.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="post" action="">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
