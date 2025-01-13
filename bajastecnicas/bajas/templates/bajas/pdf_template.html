@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 30px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .details {
+            margin-top: 20px;
+        }
+        .details td {
+            padding: 8px;
+            text-align: left;
+        }
+        .details th {
+            padding: 8px;
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalles de la Baja</h1>
+
+    <!-- Mostrar la imagen si existe -->
+    {% if img_tag %}
+        <div class="image-container">
+            <img src="{{ img_tag }}" alt="Foto de la Baja">
+        </div>
+    {% endif %}
+
+    <table class="details">
+        <tr>
+            <th>No. Inventario</th>
+            <td>{{ baja.no_inv|default:baja.inm_herramienta }}</td>
+        </tr>
+        <tr>
+            <th>Denominación SAP</th>
+            <td>{{ baja.denominacion_SAP }}</td>
+        </tr>
+        <tr>
+            <th>Unidad Organizativa</th>
+            <td>{{ baja.unidad_org }}</td>
+        </tr>
+        <tr>
+            <th>Motivo de Baja</th>
+            <td>{{ baja.motivo_baja }}</td>
+        </tr>
+        <tr>
+            <th>Destino Final</th>
+            <td>{{ baja.destino_final }}</td>
+        </tr>
+        <tr>
+            <th>Años Explotación</th>
+            <td>{{ baja.años_explotacion }}</td>
+        </tr>
+        <tr>
+            <th>Valor Residual</th>
+            <td>${{ baja.valor_residual }}</td>
+        </tr>
+        <tr>
+            <th>Fecha de Solicitud</th>
+            <td>{{ baja.fecha_solicitud }}</td>
+        </tr>
+        <tr>
+            <th>Fecha de Creación</th>
+            <td>{{ baja.date }}</td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -265,6 +265,7 @@
                 <tr>
                     <td>
                         <div class="d-flex justify-content-start">
+                            <a href="{% url 'bajas:exportar_pdf' baja.id %}" class="btn btn-info me-2">PDF</a>
                             <a href="{% url 'bajas:editar_baja' baja.id %}" class="btn btn-secondary me-2">Editar</a>
                             <button 
                                 class="btn btn-danger"
