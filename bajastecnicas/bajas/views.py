@@ -35,11 +35,11 @@ def bajas_list(request):
 
     if noinv_herramienta:
         #bajas = bajas.filter(no_inv=noinv_herramienta)
-        bajass = bajass.filter( models.Q(no_inv=noinv_herramienta) | models.Q(inm_herramienta=noinv_herramienta))  
+        bajass = bajass.filter( models.Q(no_inv=noinv_herramienta) | models.Q(inm_herramienta=noinv_herramienta))
 
     if fecha_inicio:
         bajass = bajass.filter(date__gte=datetime.strptime(fecha_inicio, '%Y-%m-%d'))
-    
+
     if fecha_fin:
         bajass = bajass.filter(date__lte=datetime.strptime(fecha_fin, '%Y-%m-%d'))
 
@@ -60,7 +60,7 @@ def bajas_list(request):
 
     if unidad_org:
         bajass = bajass.filter(unidad_org=unidad_org)
-        
+
     if motivo_baja:
         bajass = bajass.filter(motivo_baja=motivo_baja)
 
@@ -80,13 +80,13 @@ def bajas_list(request):
             bajass = bajass.filter(Q(archivo_anexo_a1__isnull=True) | Q(archivo_anexo_a1=''))
 
     if anexo_a2:  # Si anexo_a2 tiene un valor
-        bajass = bajass.filter(anexo_a2=anexo_a2)       
+        bajass = bajass.filter(anexo_a2=anexo_a2)
 
     if anexo_a3:
         bajass = bajass.filter(anexo_a3=anexo_a3)
 
-    #paginador 
- 
+    #paginador
+
     bajass = bajass.order_by('id')
     paginator = Paginator(bajass, 3)
     page_number = request.GET.get('page')
@@ -125,7 +125,7 @@ def eliminar_baja(request, id):
             return render(request, 'bajas/acceso_denegado.html')  # Si no es 'ledesma', muestra el acceso denegado
 
     # Si no es POST, también puede manejarse aquí (aunque generalmente los formularios de eliminación usan POST)
-    return render(request, 'bajas/acceso_denegado.html') 
+    return render(request, 'bajas/acceso_denegado.html')
 
 def editar_baja(request, id):
     baja = get_object_or_404(Bajas, pk=id)
@@ -162,6 +162,8 @@ def exportar_pdf(request, id):
 
     if pisa_status.err:
         return HttpResponse('Hubo un error al generar el PDF', status=400)
-    
+
     return response
+
+
 
