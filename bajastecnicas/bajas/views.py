@@ -625,7 +625,7 @@ def cargar_excel_inv(request):
 
            
             messages.success(request, "El archivo fue cargado correctamente.")
-            return redirect('bajas:list')
+            return redirect('bajas:cargar_excel_inv') 
 
         except Exception as e:
             # Si ocurre un error en el proceso de carga, mostramos el mensaje de error
