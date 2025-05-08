@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anexo A</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        text-align: center;
+      }
+      .title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 5px;
+        text-align: left;
+      }
+      .no-border {
+        border: none;
+      }
+      .center {
+        text-align: center;
+      }
+      .grey-background {
+        background-color: #d3d3d3; /* Gris claro */
+        text-align: center; /* Centramos el texto horizontalmente */
+      }
+      .background-gris-nocenter {
+        background-color: #d3d3d3;
+      }
+
+      .row-with-four-columns td {
+        width: 33%; /* Todas las celdas de 4 columnas ocupan el 33% */
+      }
+      td {
+        padding-top: 2px;
+        padding-bottom: 0;
+      }
+      td .titulo {
+        width: 33%;
+      }
+      td .valor {
+        width: 67%;
+      }
+      .tabla_footer td {
+        width: 25%; /* Todas las celdas de 4 columnas ocupan el 33% */
+      }
+      .header-logo .header-title {
+        padding-bottom: 0;
+        padding-top: 1px;
+      }
+      #tablafooter tbody td:empty {
+        min-height: 40px;
+        background-color: #f8f8f8;
+      }
+      #tablafooter tbody tr {
+        height: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <!-- Tabla de encabezado -->
+      <div>
+        {% comment %}
+        <table class="header-table">
+          <tr>
+            <!-- Primera columna con el logo y texto -->
+            <td class="header-logo">
+              <img src="{{ logo_etecsa }}" alt="Etecsa Logo" />
+              <br />
+              <span class="bold-text">Vicepresidencia de</span> <br /><span
+                class="bold-text"
+              >
+                Operaciones de Red</span
+              >
+            </td>
+
+            <!-- Segunda columna con el título -->
+            <td class="header-title">
+              Autorización de Bajas Técnicas de AFT <br />
+              tecnológicos y Herramientas tecnológicas
+            </td>
+
+            <!-- Tercera columna con la info de código -->
+            <td class="header-info" style="border: 1px solid black; padding: 0">
+              <!-- Agregamos estilo inline para controlar el borde -->
+              <div class="top" style="padding: 1px 5px; border-bottom: none">
+                CÓDIGO: PE-OR-001/22
+              </div>
+              <table
+                class="header_right_side"
+                width="100%"
+                class="header-info-bottom"
+                style="border: none; border-collapse: collapse"
+              >
+                <tr>
+                  <td style="border-right: 1px solid black; padding: 1px 5px">
+                    REVISIÓN:
+                  </td>
+                  <td style="padding: 1px 5px">
+                    FECHA DE EMISIÓN: {{ baja.fecha_solicitud }}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-right: 1px solid black; padding: 1px 5px">
+                    HOJA: 12
+                  </td>
+                  <td style="padding: 1px 5px">DE: 15</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        {% endcomment %}
+        <h2 style="text-align: left; margin-left: 50px">11.ANEXOS:</h2>
+        <p style="text-align: left">
+          <strong>No 1. ANEXO 1,Solicitud de Baja Técnica</strong>
+        </p>
+        <table class="cuerpo_pdf">
+          <tr>
+            <th
+              class="grey-background full-width"
+              colspan="4"
+              style="padding-bottom= 0; padding-top= 1px"
+            >
+              SOLICITUD DE BAJA TÉCNICA
+            </th>
+          </tr>
+          <tr>
+            <td colspan="4">Unidad Organizativa {{ baja.unidad_org }}</td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              Área a la que pertenece {{ baja.area_pertenece }}
+            </td>
+          </tr>
+          <tr class="row-with-four-columns">
+            <td colspan="4">
+              Fecha {{ baja.date }} No. Solicitud AHORA MISMO NO TENGO NO
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" class="center">
+              DETERIORO ________ OBSOLESCENCIA _______
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Segunda tabla -->
+      <table class="cuerpo_pdf">
+        <tr>
+          <td>EQUIPO:</td>
+          <td colspan="3">{{ baja.denominacion_SAP }}</td>
+        </tr>
+        <tr class="row-with-four-columns">
+          <td>FABRICANTE:</td>
+          <td>{{ baja.fabricante }}</td>
+          <td>MODELO</td>
+          <td>{{ baja.modelo }}</td>
+        </tr>
+        <tr>
+          <td>NÚMERO DE INVENTARIO</td>
+          <td colspan="3">{{ baja.no_inv }}</td>
+        </tr>
+        <tr>
+          <td>AÑOS DE EXPLOTACIÓN</td>
+          <td colspan="3">{{ baja.años_explotacion }}</td>
+        </tr>
+      </table>
+
+      <!-- Tercera tabla -->
+      <table class="cuerpo_pdf">
+        <tr>
+          <td class="background-gris-nocenter" colspan="4">
+            Descripción del estado actual
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            B{% if baja.estado_actual == 'Bueno' %} x{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            R{% if baja.estado_actual == 'Regular' %} x{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            M{% if baja.estado_actual == 'Malo' %} x{% endif %}
+          </td>
+          {% comment %}
+          <td colspan="3">{{ baja.estado_actual }}</td>
+          {% endcomment %}
+        </tr>
+        <tr>
+          <td colspan="4">{{ baja.descripcion_est_actual }}</td>
+        </tr>
+      </table>
+
+      <!-- Cuarta tabla -->
+      <table class="cuerpo_pdf">
+        <tr>
+          <td class="background-gris-nocenter">Uso actual:</td>
+        </tr>
+        <tr>
+          <td>{{ baja.uso_actual }}</td>
+        </tr>
+        <tr>
+          <td class="background-gris-nocenter">Propuesta de destino final:</td>
+        </tr>
+        <tr>
+          <td>{{ baja.destino_final }}</td>
+        </tr>
+      </table>
+
+      <table id="tablafooter"
+        style="width: 100%; border-collapse: collapse"
+        class="tabla_footer"
+      >
+        <thead>
+          <tr class="grey-background full-width">
+            <th>Nombre</th>
+            <th>Cargo</th>
+            <th>Firma</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

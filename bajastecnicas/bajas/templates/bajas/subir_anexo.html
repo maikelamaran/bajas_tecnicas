@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Subir Anexo_0 firmado
+{% endblock %}
+{% block content %}
+<h1>Subir Anexo 0 Firmado</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+        <label for="archivo_firmado">Seleccione el archivo firmado:</label>
+        <input type="file" name="archivo_firmado" id="archivo_firmado" required>
+    </p>
+    <button type="submit">Subir</button>
+</form>
+
+<a href="{% url 'bajas:list' %}">Volver a la lista</a>
+{% endblock %}

@@ -108,7 +108,7 @@
                             <label for="motivo_baja" class="form-label">Motivo de Baja</label>
                             <select class="form-select" id="motivo_baja" name="motivo_baja">
                                 <option value="">Seleccionar Motivo</option>
-                                <option value="obsolencia">Obsolescencia</option>
+                                <option value="Obsolescencia">Obsolescencia</option>
                                 <option value="deterioro">Deterioro</option>
                             </select>
                         </div>
@@ -268,12 +268,68 @@
                             <a href="{% url 'bajas:exportar_pdf' baja.id %}" class="btn btn-info me-2">PDF</a>
                             <a href="{% url 'bajas:editar_baja' baja.id %}" class="btn btn-secondary me-2">Editar</a>
                             <button 
-                                class="btn btn-danger"
+                                class="btn btn-danger me-2"
                                 data-bs-toggle="modal"
                                 data-bs-target="#confirmDeleteModal"
                                 data-id="{{ baja.id }}">
                                 Eliminar
                             </button>
+                            {% if baja.archivo_anexo_0 %}
+                                <a href="{{ baja.archivo_anexo_0.url }}" class="btn btn-warning me-2" target="_blank">Anexo 0</a>
+                            {% endif %}
+                             <!--botones para hacer los anexos -->
+                             <!--inicio de anexo A-->
+                            {% if puede_aprobar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and baja.archivo_anexo_0 and not baja.aprobado_anexoA %}
+                                <a href="{% url 'bajas:aprobar_anexoA' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A</a>
+                            {% endif %}
+                            {% if puede_llenar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and not baja.informacion_anexo_a_completa and baja.aprobado_anexoA %}
+                                <a href="{% url 'bajas:trabajar_anexoA' baja.id %}" class="btn btn-warning">Llenar datos Anexo A</a>                                
+                            {% endif %}                            
+                            {% if puede_crear_anexo_a and baja.informacion_anexo_a_completa and not baja.archivo_anexo_a %}
+                                <a href="{% url 'bajas:crear_anexoA' baja.id %}" class="btn btn-warning me-2">Crear Anex A</a>
+                            {% endif %}
+                            <!--fin de anexo A-->
+
+                            <!--inicio de anexo A1-->
+                            {% if puede_aprobar_anexo_a1 and baja.listopara_anexo_A1 and not baja.archivo_anexo_a1 and baja.archivo_anexo_a and not baja.aprobado_anexoA1 %}
+                                <a href="{% url 'bajas:aprobar_anexoA1' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A1</a>
+                            {% endif %}
+                            {% if puede_llenar_anexo_a1  and baja.listopara_anexo_A1 and not baja.archivo_anexo_a1 and not baja.informacion_anexo_a1_completa and baja.aprobado_anexoA1 %}
+                                <a href="{% url 'bajas:trabajar_anexoA1' baja.id %}" class="btn btn-warning">Llenar datos Anexo A1</a>
+                            {% endif %}
+                            {% if puede_crear_anexo_a1 and baja.informacion_anexo_a1_completa and not baja.archivo_anexo_a1 %}
+                                <a href="{% url 'bajas:crear_anexoA1' baja.id %}" class="btn btn-warning me-2">Crear Anex A1</a>
+                            {% endif %}
+                            <!--fin de anexo A1-->
+
+                            <!--inicio de anexo A2-->
+                            {% if puede_aprobar_anexo_a2 and baja.listopara_anexo_A2 and not baja.archivo_anexo_a2 and baja.archivo_anexo_a1 and not baja.aprobado_anexoA2 %}
+                                <a href="{% url 'bajas:aprobar_anexoA2' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A2</a>
+                            {% endif %}
+                            {% if  puede_llenar_anexo_a2  and baja.listopara_anexo_A2 and not baja.archivo_anexo_a2 and not baja.informacion_anexo_a2_completa and baja.aprobado_anexoA2 %}
+                                <a href="{% url 'bajas:trabajar_anexoA2' baja.id %}" class="btn btn-warning">Llenar datos Anexo A2</a>
+                            {% endif %}
+                            {% if puede_crear_anexo_a2 and baja.informacion_anexo_a2_completa and not baja.archivo_anexo_a2 %}
+                                <a href="{% url 'bajas:crear_anexoA2' baja.id %}" class="btn btn-warning me-2">Crear Anex A2</a>
+                            {% endif %}
+                            <!--fin de anexo A2-->
+
+                            <!--inicio de anexo A3-->
+                            {% if puede_aprobar_anexo_a3 and baja.listopara_anexo_A3 and not baja.archivo_anexo_a3 and baja.archivo_anexo_a2 and not baja.aprobado_anexoA3 %}
+                                <a href="{% url 'bajas:aprobar_anexoA3' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A3</a>
+                            {% endif %}
+                            {% if  puede_llenar_anexo_a3  and baja.listopara_anexo_A3 and not baja.archivo_anexo_a3 and not baja.informacion_anexo_a3_completa and baja.aprobado_anexoA3 %}
+                                <a href="{% url 'bajas:trabajar_anexoA3' baja.id %}" class="btn btn-warning">Llenar datos Anexo A3</a>
+                            {% endif %}
+                            {% if puede_crear_anexo_a3 and baja.informacion_anexo_a3_completa and not baja.archivo_anexo_a3 %}
+                                <a href="{% url 'bajas:crear_anexoA3' baja.id %}" class="btn btn-warning me-2">Crear Anex A3</a>
+                            {% endif %}
+                            <!--fin de anexo A3-->
+                             <!-- fin de botones para hacer los pdf -->
+                            <!-- Link para subir el anexo firmado -->
+                            {% if user.username == "vladimir" and baja.estado == "Espera firma anexo0" %}
+                                <a href="{% url 'bajas:subir_anexo' baja.id %}" class="btn btn-warning me-2">Subir Anexo Firmado</a>
+                            {% endif %}
                         </div>
                     </td>
                     <td><a href="{% url 'bajas:baja-page' id=baja.id %}" class="btn btn-outline-primary btn-sm">Ver detalles</a></td>

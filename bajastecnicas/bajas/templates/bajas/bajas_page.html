@@ -25,6 +25,15 @@
             <p class="fs-5"><strong>Fecha creación</strong> {{ baja.date }}</p>
             <p class="fs-5"><strong>Unidad Org:</strong> {{ baja.unidad_org }}</p>
             <p class="fs-5"><strong>Motivo de Baja:</strong> {{ baja.motivo_baja }}</p>
+            <p class="fs-5"><strong>INFORMACION DE PRUEBA:</strong></p>
+            <p class="fs-5"><strong>informacion_anexo_a_completa:</strong> {{ baja.informacion_anexo_a_completa }}</p>
+            <p class="fs-5"><strong>informacion_anexo_a1_completa:</strong> {{ baja.informacion_anexo_a1_completa }}</p>
+            <p class="fs-5"><strong>listopara_anexo_A:</strong> {{ baja.listopara_anexo_A }}</p>
+            <p class="fs-5"><strong>listopara_anexo_A1:</strong> {{ baja.listopara_anexo_A1 }}</p>
+            <p class="fs-5"><strong>aprobado anexo a:</strong> {{ baja.listopara_anexo_A1 }}</p>
+            <p class="fs-5"><strong>aprobado anexo a1:</strong> {{ baja.aprobado_anexoA1 }}</p>
+            <p class="fs-5"><strong>archivo_anexo_a:</strong> {{ baja.aprobado_anexoA }}</p>
+            <p class="fs-5"><strong>archivo_anexo_a1:</strong> {{ baja.archivo_anexo_a1 }}</p>
             <p class="fs-5"><strong>Mov AFT:</strong>
                 {% if baja.mov_aft == 'si' %}
                     <span class="badge bg-success">{{ baja.mov_aft }}</span>                    
@@ -51,6 +60,14 @@
 
             <h5 class="text-dark">Detalles Adicionales</h5>
             <ul class="list-unstyled">
+                <li><strong>Anexo 0:</strong> 
+                    {% if baja.anexo_0 == 'si' %}
+                    <span class="badge bg-success">{{ baja.anexo_0 }}</span>                    
+                    {% else %}
+                        <span class="badge bg-danger">{{ baja.anexo_0 }}</span>
+                    {% endif %}
+                   
+                </li>
                 <li><strong>Anexo A:</strong> 
                     {% if baja.anexo_a == 'si' %}
                     <span class="badge bg-success">{{ baja.anexo_a }}</span>                    

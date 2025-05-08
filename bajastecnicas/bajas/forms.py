@@ -1,6 +1,6 @@
 from django import forms
 from . import models
-from .choices import ESTADO_CHOICES, MOTIVO_BAJA_CHOICES, DESTINO_FINAL_CHOICES, ANEXOS_CHOICES, UNIDAD_ORGANIZATIVA_CHOICES, DETALLES_CHOICES
+from .choices import ESTADO_ACTUAL_CHOICES, ESTADO_CHOICES, MOTIVO_BAJA_CHOICES, DESTINO_FINAL_CHOICES, ANEXOS_CHOICES, UNIDAD_ORGANIZATIVA_CHOICES, DETALLES_CHOICES,AREA_PERTENECE
 
 class BajasForm(forms.ModelForm):  
 
@@ -9,16 +9,24 @@ class BajasForm(forms.ModelForm):
     class Meta:
         model = models.Bajas
         fields = [
-            "no_inv", "inm_herramienta", "denominacion_SAP", "unidad_org",  "foto", "observaciones", 
+            "no_inv", "inm_herramienta", "denominacion_SAP", "unidad_org", "area_pertenece","fabricante","modelo","estado_actual","descripcion_est_actual","uso_actual","foto", "observaciones", 
             "estado", "motivo_baja", "destino_final", "años_explotacion", "valor_residual", 
-            "detalle", "fecha_solicitud", "archivo_anexo_a", "archivo_anexo_a1", "anexo_a2", "anexo_a3", "archivo_mov_aft"
+            "detalle","argumento_deteriorado","argumento_obsoleto", "fecha_solicitud","archivo_anexo_0", "archivo_anexo_a", "archivo_anexo_a1","archivo_anexo_a2","archivo_anexo_a3", "archivo_mov_aft"
         ]
+        
 
         widgets = {
             'no_inv': forms.TextInput(attrs={'class': 'form-control'}),
             'inm_herramienta': forms.TextInput(attrs={'class': 'form-control'}),
             'denominacion_SAP': forms.TextInput(attrs={'class': 'form-control'}),
             'unidad_org': forms.Select(attrs={'class': 'form-control'}, choices=UNIDAD_ORGANIZATIVA_CHOICES),
+            'area_pertenece': forms.TextInput(attrs={'class': 'form-control'}),
+            # 'equipo': forms.TextInput(attrs={'class': 'form-control'}),
+            'fabricante': forms.TextInput(attrs={'class': 'form-control'}),
+            'modelo': forms.TextInput(attrs={'class': 'form-control'}),
+            'estado_actual': forms.Select(attrs={'class': 'form-control'}, choices=ESTADO_ACTUAL_CHOICES),
+            'descripcion_est_actual': forms.TextInput(attrs={'class': 'form-control'}),
+            'uso_actual': forms.TextInput(attrs={'class': 'form-control'}),
             # 'anexo_a1': forms.Select(attrs={'class': 'form-control'}, choices=ANEXOS_CHOICES),
             # 'anexo_a': forms.Select(attrs={'class': 'form-control'}, choices=ANEXOS_CHOICES),
             'foto': forms.ClearableFileInput(attrs={'class': 'form-control'}),
@@ -35,21 +43,25 @@ class BajasForm(forms.ModelForm):
             'años_explotacion': forms.NumberInput(attrs={'class': 'form-control'}),
             'valor_residual': forms.NumberInput(attrs={'class': 'form-control'}),
             'detalle': forms.Select(attrs={'class': 'form-select'}, choices=DETALLES_CHOICES),
+            'argumento_deteriorado': forms.TextInput(attrs={'class': 'form-control'}),
+            'argumento_obsoleto': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha_solicitud' : forms.DateInput(attrs={'type': 'date'}),
+            'archivo_anexo_0': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'archivo_anexo_a': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'archivo_anexo_a1': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
-            'anexo_a2': forms.TextInput(attrs={'class': 'form-control'}),        
-            'anexo_a3': forms.TextInput(attrs={'class': 'form-control'}),        
+            'archivo_anexo_a2': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
+            'archivo_anexo_a3': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
+                 
             'archivo_mov_aft': forms.ClearableFileInput(attrs={'class': 'form-control'})       
    
         }
 
-    def clean_valor_residual(self):
-        """Validación para asegurar que el valor residual es mayor que cero"""
-        valor = self.cleaned_data.get('valor_residual')
-        if valor <= 0:
-            raise forms.ValidationError("El valor residual debe ser mayor que cero.")
-        return valor
+    # def clean_valor_residual(self):
+    #     """Validación para asegurar que el valor residual es mayor que cero"""
+    #     valor = self.cleaned_data.get('valor_residual')
+    #     if valor <= 0:
+    #         raise forms.ValidationError("El valor residual debe ser mayor que cero.")
+    #     return valor
 
     def clean_años_explotacion(self):
         """Validación para asegurarse de que los años de explotación no sean negativos"""

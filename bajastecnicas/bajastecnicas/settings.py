@@ -24,9 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lr086f!(j-h6@#kjz3p7jkd3-mh$0#q%gb9^qkaud-zcs7xtu+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['mikerosy.pythonanywhere.com', 'localhost', '127.0.0.1']
+
 
 
 # Application definition
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'bajas',
     'users',
     'widget_tweaks',
+   
 ]
 
 MIDDLEWARE = [
@@ -51,7 +53,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', 
+    
 ]
 
 ROOT_URLCONF = 'bajastecnicas.urls'
@@ -59,7 +62,7 @@ ROOT_URLCONF = 'bajastecnicas.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],        
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

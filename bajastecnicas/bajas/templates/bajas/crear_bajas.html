@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
+
 {% block title %}
     Crear Bajas
-{% endblock %} 
+{% endblock %}
+
 {% block content %}
 <section class="container mt-5">
     <div class="row justify-content-center">
@@ -9,10 +11,77 @@
             <h1 class="text-center">Crear Registro</h1>
             <form action="{% url 'bajas:crear-baja' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                
                 {{ form.as_p }}  <!-- Cambia {{ form }} por {{ form.as_p }} para mejorar la separación entre campos -->
+
+                {% comment %} <div class="form-group">
+                    <label for="id_no_inv">Número de Inventario:</label>
+                    <input type="text" id="no_inv_autocomplete" name="no_inv" class="form-control" autocomplete="off" value="{{ form.no_inv.value }}" list="no_inv_list">
+                    <datalist id="no_inv_list">
+                        {% for inv in no_inv_list %}
+                            <option value="{{ inv }}">
+                        {% endfor %}
+                    </datalist>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_denominacion_SAP">Denominación SAP:</label>
+                    <input type="text" id="denominacion_SAP" name="denominacion_SAP" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="id_fabricante">Fabricante:</label>
+                    <input type="text" id="fabricante" name="fabricante" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="id_modelo">Modelo:</label>
+                    <input type="text" id="modelo" name="modelo" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="id_valor_residual">valor_residual:</label>
+                    <input type="text" id="valor_residual" name="valor_residual" class="form-control" readonly>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="id_años_explotacion">Años de Explotación:</label>
+                    <input type="text" id="años_explotacion" name="años_explotacion" class="form-control" readonly>
+                </div>  {% endcomment %}
+
                 <button class="btn btn-primary d-block mx-auto mt-4">Añadir Baja</button>
             </form>
         </div>
     </div>
 </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#id_no_inv').on('change', function () {
+            var noInv = $(this).val();  // Obtener el valor ingresado en el campo no_inv
+            if (noInv) {
+                $.ajax({
+                    url: "{% url 'bajas:buscar_inventario' %}",  // Asegúrate de que este nombre de URL sea correcto
+                    data: {'no_inv': noInv},
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.error) {
+                            alert("Error: " + data.error);  // Muestra el error si hay algún problema
+                        } else {
+                            // Llenar los campos automáticamente
+                            $('#id_denominacion_SAP').val(data.denominacion_SAP);
+                            $('#id_valor_residual').val(data.valor_residual);
+                            $('#id_años_explotacion').val(data.años_explotacion);                            
+                            $('#id_inm_herramienta').val(data.inm_herramienta);
+                            $('#id_area_pertenece').val(data.area_pertenece);
+                        }
+                    },
+                    error: function () {
+                        alert("Error al buscar los datos de inventario.");
+                    }
+                });
+            }
+        });
+    });
+</script>
+
 {% endblock %}

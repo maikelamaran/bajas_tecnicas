@@ -7,19 +7,20 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h1 class="text-center">Editar Baja</h1> 
-            {% if is_ledesma %}       
-                <form action="{% url 'bajas:editar_baja' baja.id %}" method="post" enctype="multipart/form-data">
+            {% comment %} {% if is_ledesma %}        {% endcomment %}
+                {% comment %} <form action="{% url 'bajas:editar_baja' baja.id %}" method="post" enctype="multipart/form-data"> {% endcomment %}
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }} 
                     <button type="submit" class="btn btn-primary d-block mx-auto mt-4">Editar</button>
                     <a href="{% url 'bajas:list' %}" class="btn btn-secondary">Cancelar</a>
                 </form>
-            {% else %}
+            {% comment %} {% else %}
                 <div class="col-12 text-center text-white mt-5 px-3" style="background-color: rgba(0, 0, 0, 0.5);">
                     <h2 class="display-4 font-weight-bold text-shadow">SOLO LEDESMA EDITA</h2>
                     
                 </div>
-            {% endif %} 
+            {% endif %}  {% endcomment %}
         </div>
     </div>
 </section>

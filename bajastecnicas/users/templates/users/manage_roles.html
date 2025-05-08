@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}Administrar Roles{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Administrar Roles de Usuarios</h2>
+
+<div class="table-responsive">
+  <form method="post">
+    {% csrf_token %}
+    <table class="table table-bordered table-sm align-middle text-center">
+      <thead class="table-light">
+        <tr>
+          <th>Usuario</th>
+          {% for perm in permissions %}
+            <th class="text-nowrap">{{ perm.name }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td class="text-nowrap">{{ user.username }}</td>
+            {% for perm in permissions %}
+              <td>
+                <input type="checkbox"
+                       class="form-check-input"
+                       name="user_{{ user.id }}_perm_{{ perm.codename }}"
+                       {% if perm in user.user_permissions.all %}checked{% endif %}>
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-warning mt-3">Guardar cambios</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anexo A1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            text-align: left;
+            margin-left: 50px;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 5px;
+            vertical-align: middle;
+            text-align: left;
+        }
+        .grey-background {
+            background-color: #d3d3d3;
+            text-align: center;
+        }
+        .background-gris-nocenter {
+            background-color: #d3d3d3;
+        }
+
+        /* Estilos solo para la tabla footer */
+        #tablafooter {
+            table-layout: fixed;
+            width: 100%;
+            margin-top: 20px;
+        }
+        #tablafooter th, #tablafooter td {
+            width: 25%;
+            height: 40px;
+            text-align: center;
+        }
+        #tablafooter td:empty::before {
+            content: "\00a0";
+        }
+        .tabla-equipos {
+            table-layout: fixed;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .tabla-equipos td {
+            vertical-align: top;
+            padding: 2px 5px; /* valor neutral para datos */
+            font-size: 12px;
+            word-wrap: break-word;
+        }
+        
+        .tabla-equipos td.titulo {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            padding-left: 0px; /* sin espacio a la izquierda */
+            padding-right: 5px; /* para que no choque el texto */
+            text-align: left;  /* aseguramos alineación */
+        }
+    </style>
+</head>
+<body>
+    <div style="margin: 0 50px;">
+        <h2>No 2. ANEXO A1, Dictamen Técnico</h2>
+
+        <table>
+            <tr>
+                <th class="grey-background" colspan="4" style="padding: 1px 0">
+                    DICTAMEN TÉCNICO
+                </th>
+            </tr>
+            <tr>
+                <td colspan="4">Unidad Organizativa {{ baja.unidad_org }}</td>
+            </tr>
+            <tr>
+                <td colspan="4">Área a la que pertenece {{ baja.area_pertenece }}</td>
+            </tr>
+            <tr>
+                <td colspan="4">Fecha {{ baja.date }} No. Solicitud [NÚMERO]</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <table style="width: 100%; border: none;">
+                        <tr>
+                            <td style="width: 50%; border: none; padding: 0;">
+                                <div style="margin-left: 50px;">
+                                    <div>OBSOLETO REUTILIZABLE</div>
+                                    <div>DETERIORADO ÚTIL</div>
+                                </div>
+                            </td>
+                            <td style="width: 50%; border: none; padding: 0; text-align: right;">
+                                <div style="margin-right: 50px;">
+                                    <div>OBSOLETO NO REUTILIZABLE</div>
+                                    <div>DETERIORADO NO ÚTIL</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <table class="tabla-equipos">
+            <tr>
+                <td class="titulo">EQUIPO/HERRAMIENTAS:</td>
+                <td colspan="3">{{ baja.denominacion_SAP }}</td>
+            </tr>
+            <tr>
+                <td class="titulo">FABRICANTE:</td>
+                <td>{{ baja.fabricante }}</td>
+                <td class="titulo">MODELO</td>
+                <td>{{ baja.modelo }}</td>
+            </tr>
+            <tr>
+                <td class="titulo">NÚMERO DE INVENTARIO</td>
+                <td colspan="3">{{ baja.no_inv }}</td>
+            </tr>
+            <tr>
+                <td class="titulo">AÑOS DE EXPLOTACIÓN</td>
+                <td colspan="3">{{ baja.años_explotacion }}</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td class="background-gris-nocenter">
+                    Argumento para OBSOLETO REUTILIZABLE/NO REUTILIZABLE:
+                </td>
+            </tr>
+            <tr>
+                <td>{{ baja.argumento_obsoleto }}</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td class="background-gris-nocenter">Destino final:</td>
+            </tr>
+            <tr>
+                <td>{{ baja.destino_final }}</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td class="background-gris-nocenter">
+                    Argumento para DETERIORADO ÚTIL/ NO ÚTIL:
+                </td>
+            </tr>
+            <tr>
+                <td>{{ baja.argumento_deteriorado }}</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td class="background-gris-nocenter">
+                    Argumento para OBSOLETO REUTILIZABLE/ NO REUTILIZABLE:
+                </td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td class="background-gris-nocenter">
+                    Relación de partes a reutilizar y/o destino final del DETERIORADO ÚTIL:
+                </td>
+            </tr>
+            <tr>
+                <td>{{ baja.destino_final }}</td>
+            </tr>
+        </table>
+
+        <!-- Footer Corregido -->
+        <table id="tablafooter">
+            <thead>
+                <tr class="grey-background">
+                    <th>Nombre</th>
+                    <th>Cargo</th>
+                    <th>Firma</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
