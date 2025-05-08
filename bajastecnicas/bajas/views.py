@@ -49,6 +49,7 @@ def bajas_list(request):
     anexo_a3 = request.GET.get('anexo_a3')
 
     if noinv_herramienta:
+
         # bajas = bajas.filter(no_inv=noinv_herramienta)
         bajass = bajass.filter(models.Q(no_inv=noinv_herramienta) | models.Q(
             inm_herramienta=noinv_herramienta))
@@ -56,6 +57,7 @@ def bajas_list(request):
     if fecha_inicio:
         bajass = bajass.filter(
             date__gte=datetime.strptime(fecha_inicio, '%Y-%m-%d'))
+
 
     if fecha_fin:
         bajass = bajass.filter(
@@ -109,7 +111,7 @@ def bajas_list(request):
     if anexo_a3:
         bajass = bajass.filter(anexo_a3=anexo_a3)
 
-    # paginador
+
 
     bajass = bajass.order_by('id')
     paginator = Paginator(bajass, 3)
@@ -631,3 +633,4 @@ def cargar_excel_inv(request):
             return redirect('bajas:cargar_excel_inv')  
 
     return render(request, 'bajas/cargar_excel_inv.html')
+
