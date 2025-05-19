@@ -52,6 +52,7 @@ class Bajas(models.Model):
     aprobado_anexoA = models.BooleanField(default=False)
     aprobado_anexoA2 = models.BooleanField(default=False)
     aprobado_anexoA3 = models.BooleanField(default=False)
+    responsable = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
 
     #de esta forma hago que las propiedades anexo_a, anexo_a1, a2, y a3 sean computados,

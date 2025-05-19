@@ -152,7 +152,7 @@ def bajas_page(request, id):
 def crear_baja(request):
     if request.method == 'POST':
         # Asegúrate de incluir request.FILES para manejar imágenes
-        form = BajasForm(request.POST, request.FILES)
+        form = BajasForm(request.POST, request.FILES, user=request.user)  # 👈 paso user aqui para poder manejar lo de solo ciertos usuarios editar responsable, pq pregunto siempre si eres cierto role
 
         # Si el formulario es válido
         if form.is_valid():
@@ -173,11 +173,11 @@ def crear_baja(request):
                 if pisa_status.err:
                     return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF a0'})           
             baja.archivo_anexo_0 = pdf_path_0
-            baja.listopara_anexo_A = True            
+            baja.listopara_anexo_A1 = True            
             baja.save()            
             return redirect('bajas:list')
     else:
-        form = BajasForm()
+        form = BajasForm(user=request.user)
 
     # Cargar el archivo Excel para autocompletar los campos
     excel_path = os.path.join(settings.MEDIA_ROOT, 'uploaded/inventario.xlsx')
@@ -225,12 +225,12 @@ def editar_baja(request, id):
     baja = get_object_or_404(Bajas, pk=id)
     is_ledesma = request.user.username.lower() == 'ledesma'
     if request.method == 'POST':
-        form = BajasForm(request.POST, request.FILES, instance=baja)
+        form = BajasForm(request.POST, request.FILES, instance=baja, user=request.user)  # 👈 PASAR user AQUÍ
         if form.is_valid():
             form.save()
             return redirect('bajas:list')
     else:
-        form = BajasForm(instance=baja)
+        form = BajasForm(instance=baja, user=request.user)  # 👈 PASAR user AQUÍ
     return render(request, 'bajas/editar_bajas.html', {'form': form, 'baja': baja, 'is_ledesma': is_ledesma})
 
 
@@ -422,7 +422,7 @@ def crear_anexoA(request, id):
 
         # Guardar la ruta del archivo PDF en el modelo
         baja.archivo_anexo_a = pdf_path
-        baja.listopara_anexo_A1 = True
+        baja.listopara_anexo_A2 = True
         
         baja.save()
 
@@ -478,7 +478,7 @@ def crear_anexoA1(request, id):
 
         # Guardo la ruta del archivo PDF en el modelo
         baja.archivo_anexo_a1 = pdf_path_a1
-        baja.listopara_anexo_A2 = True
+        baja.listopara_anexo_A = True
         
         baja.save()
 

@@ -86,11 +86,11 @@
               <a class="nav-link" href="{% url 'bajas:list' %}">Solicitudes</a>
             </li>
             {% if user.is_authenticated %}
-              {% if user.username == 'ledesma' %}
+              {% comment %} {% if user.username == 'ledesma' %} {% endcomment %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'bajas:crear-baja' %}">Crear Solicitud</a>
               </li>
-              {% endif %}
+              {% comment %} {% endif %} {% endcomment %}
             {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'users:register' %}">Registrarse</a>

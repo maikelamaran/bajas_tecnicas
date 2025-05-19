@@ -280,7 +280,7 @@
                             {% endif %}
                              <!--botones para hacer los anexos -->
                              <!--inicio de anexo A-->
-                            {% if puede_aprobar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and baja.archivo_anexo_0 and not baja.aprobado_anexoA %}
+                            {% if puede_aprobar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and baja.archivo_anexo_a1 and not baja.aprobado_anexoA %}
                                 <a href="{% url 'bajas:aprobar_anexoA' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A</a>
                             {% endif %}
                             {% if puede_llenar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and not baja.informacion_anexo_a_completa and baja.aprobado_anexoA %}
@@ -292,7 +292,7 @@
                             <!--fin de anexo A-->
 
                             <!--inicio de anexo A1-->
-                            {% if puede_aprobar_anexo_a1 and baja.listopara_anexo_A1 and not baja.archivo_anexo_a1 and baja.archivo_anexo_a and not baja.aprobado_anexoA1 %}
+                            {% if puede_aprobar_anexo_a1 and baja.listopara_anexo_A1 and not baja.archivo_anexo_a1 and baja.archivo_anexo_0 and not baja.aprobado_anexoA1 %}
                                 <a href="{% url 'bajas:aprobar_anexoA1' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A1</a>
                             {% endif %}
                             {% if puede_llenar_anexo_a1  and baja.listopara_anexo_A1 and not baja.archivo_anexo_a1 and not baja.informacion_anexo_a1_completa and baja.aprobado_anexoA1 %}

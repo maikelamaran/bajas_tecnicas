@@ -1,9 +1,17 @@
 from django import forms
 from . import models
 from .choices import ESTADO_ACTUAL_CHOICES, ESTADO_CHOICES, MOTIVO_BAJA_CHOICES, DESTINO_FINAL_CHOICES, ANEXOS_CHOICES, UNIDAD_ORGANIZATIVA_CHOICES, DETALLES_CHOICES,AREA_PERTENECE
+from django.contrib.auth.models import User
 
 class BajasForm(forms.ModelForm):  
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Recibe el usuario desde la vista
+        super().__init__(*args, **kwargs)
 
+        # Deshabilitar el campo responsable si no tiene permiso
+        if user and not (user.is_superuser or user.has_perm("users.administrador_roles")):
+            self.fields['responsable'].disabled = True
+            self.fields['responsable'].help_text = "Solo los administradores de roles pueden modificar este campo."
 
     # Campos del formulario
     class Meta:
@@ -11,7 +19,7 @@ class BajasForm(forms.ModelForm):
         fields = [
             "no_inv", "inm_herramienta", "denominacion_SAP", "unidad_org", "area_pertenece","fabricante","modelo","estado_actual","descripcion_est_actual","uso_actual","foto", "observaciones", 
             "estado", "motivo_baja", "destino_final", "años_explotacion", "valor_residual", 
-            "detalle","argumento_deteriorado","argumento_obsoleto", "fecha_solicitud","archivo_anexo_0", "archivo_anexo_a", "archivo_anexo_a1","archivo_anexo_a2","archivo_anexo_a3", "archivo_mov_aft"
+            "detalle","argumento_deteriorado","argumento_obsoleto", "fecha_solicitud","archivo_anexo_0", "archivo_anexo_a", "archivo_anexo_a1","archivo_anexo_a2","archivo_anexo_a3", "archivo_mov_aft","responsable"
         ]
         
 
@@ -52,8 +60,8 @@ class BajasForm(forms.ModelForm):
             'archivo_anexo_a2': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
             'archivo_anexo_a3': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
                  
-            'archivo_mov_aft': forms.ClearableFileInput(attrs={'class': 'form-control'})       
-   
+            'archivo_mov_aft': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
+            'responsable': forms.Select(attrs={'class': 'form-control'})
         }
 
     # def clean_valor_residual(self):
