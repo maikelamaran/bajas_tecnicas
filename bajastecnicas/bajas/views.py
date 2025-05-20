@@ -26,6 +26,8 @@ from datetime import datetime
 from django.templatetags.static import static
 from django.contrib import messages
 import os
+from django.contrib.auth import get_user_model
+User = get_user_model()
 # Create your views here.
 
 
@@ -47,6 +49,16 @@ def bajas_list(request):
     anexo_a1 = request.GET.get('anexo_a1')
     anexo_a2 = request.GET.get('anexo_a2')
     anexo_a3 = request.GET.get('anexo_a3')
+
+    # Filtro por responsable (ID de usuario)
+    responsable_id = request.GET.get('responsable')
+    if responsable_id:
+        bajass = bajass.filter(responsable_id=responsable_id)
+
+    # Obtener solo los usuarios que ya están asignados como responsables en alguna baja
+    responsables_ids = Bajas.objects.exclude(responsable__isnull=True).values_list('responsable', flat=True).distinct()
+    responsables = User.objects.filter(id__in=responsables_ids)
+    #responsables = User.objects.filter(id__in=responsables_ids).order_by('first_name', 'last_name', 'username')
 
     if noinv_herramienta:
 
@@ -114,7 +126,7 @@ def bajas_list(request):
 
 
     bajass = bajass.order_by('id')
-    paginator = Paginator(bajass, 3)
+    paginator = Paginator(bajass, 10)#AQUI EL PAGINADOR COUNT, VOY A PROBAR CON 10
     page_number = request.GET.get('page')
     bajas = paginator.get_page(page_number)
 
@@ -136,6 +148,7 @@ def bajas_list(request):
         "puede_llenar_anexo_a3": request.user.has_perm("users.llenar_anexo_a3"),
         "puede_crear_anexo_a3": request.user.has_perm("users.crear_anexo_a3"),
         "puede_admin_roles": puede_admin_roles,
+        "responsables": responsables,#para tener la lista de usuarios que son responsables YA EN ALGUNA BAJA y pasarlo en los filtros
     }
 
     # fin paginador

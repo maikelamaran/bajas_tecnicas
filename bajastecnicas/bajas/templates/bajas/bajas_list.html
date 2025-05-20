@@ -127,6 +127,19 @@
                     </div>
                     <div class="col-md-3">
                         <div class="mb-3">
+                            <label for="responsable" class="form-label">Responsable</label>
+                            <select class="form-select" id="responsable" name="responsable">
+                                <option value="">Seleccionar Responsable</option>
+                                {% for user in responsables %}
+                                    <option value="{{ user.id }}" {% if request.GET.responsable == user.id|stringformat:"s" %}selected{% endif %}>
+                                        {{ user.get_full_name|default:user.username }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
                             <label for="unidad_org" class="form-label">Unidad Organizativa</label>
                             <select class="form-select" id="unidad_org" name="unidad_org">
                                 <option value="">Seleccionar Unidad Org</option>
