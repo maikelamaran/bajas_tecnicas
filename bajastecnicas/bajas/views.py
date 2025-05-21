@@ -117,16 +117,30 @@ def bajas_list(request):
             bajass = bajass.filter(
                 Q(archivo_anexo_a1__isnull=True) | Q(archivo_anexo_a1=''))
 
-    if anexo_a2:  # Si anexo_a2 tiene un valor
-        bajass = bajass.filter(anexo_a2=anexo_a2)
-
+    if anexo_a2:
+        if anexo_a2 == 'si':
+            bajass = bajass.filter(
+                Q(archivo_anexo_a2__isnull=False) & ~Q(archivo_anexo_a2=''))
+        elif anexo_a2 == 'no':
+            bajass = bajass.filter(
+                Q(archivo_anexo_a2__isnull=True) | Q(archivo_anexo_a2=''))
     if anexo_a3:
-        bajass = bajass.filter(anexo_a3=anexo_a3)
+        if anexo_a3 == 'si':
+            bajass = bajass.filter(
+                Q(archivo_anexo_a3__isnull=False) & ~Q(archivo_anexo_a3=''))
+        elif anexo_a3 == 'no':
+            bajass = bajass.filter(
+                Q(archivo_anexo_a3__isnull=True) | Q(archivo_anexo_a3=''))
+    # if anexo_a2:  # Si anexo_a2 tiene un valor
+    #     bajass = bajass.filter(anexo_a2=anexo_a2)
+
+    # if anexo_a3:
+    #     bajass = bajass.filter(anexo_a3=anexo_a3)
 
 
 
     bajass = bajass.order_by('id')
-    paginator = Paginator(bajass, 10)#AQUI EL PAGINADOR COUNT, VOY A PROBAR CON 10
+    paginator = Paginator(bajass, 3)#AQUI EL PAGINADOR COUNT, VOY A PROBAR CON 10
     page_number = request.GET.get('page')
     bajas = paginator.get_page(page_number)
 

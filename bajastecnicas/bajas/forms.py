@@ -77,3 +77,26 @@ class BajasForm(forms.ModelForm):
         if años < 0:
             raise forms.ValidationError("Los años de explotación no pueden ser negativos.")
         return años
+
+    def clean(self):
+        cleaned_data = super().clean()
+        no_inv = cleaned_data.get("no_inv")
+        inm_herramienta = cleaned_data.get("inm_herramienta")
+
+        # Si ya existe una baja con el mismo no_inv
+        if no_inv:
+            existe_noinv = models.Bajas.objects.filter(no_inv=no_inv)
+            if self.instance.pk:
+                existe_noinv = existe_noinv.exclude(pk=self.instance.pk)
+            if existe_noinv.exists():
+                self.add_error('no_inv', "Ya existe una baja con este número de inventario.")
+
+        # Si ya existe una baja con el mismo inm_herramienta
+        if inm_herramienta:
+            existe_inm = models.Bajas.objects.filter(inm_herramienta=inm_herramienta)
+            if self.instance.pk:
+                existe_inm = existe_inm.exclude(pk=self.instance.pk)
+            if existe_inm.exists():
+                self.add_error('inm_herramienta', "Ya existe una baja con este número de herramienta.")
+
+        return cleaned_data

@@ -51,12 +51,12 @@
           <ul class="pagination">
             {% if bajas.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page=1{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}" aria-label="Primera">
+                <a class="page-link" href="?page=1{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}" aria-label="Primera">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ bajas.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}" aria-label="Anterior">
+                <a class="page-link" href="?page={{ bajas.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}" aria-label="Anterior">
                 <span aria-hidden="true">&lt;</span>
               </a>
             </li>
@@ -68,12 +68,12 @@
             
             {% if bajas.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ bajas.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}" aria-label="Siguiente">
+                <a class="page-link" href="?page={{ bajas.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}" aria-label="Siguiente">
                 <span aria-hidden="true">&gt;</span>
               </a>
             </li>
             <li class="page-item">
-              <a class="page-link" href="?page={{ bajas.paginator.num_pages }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}" aria-label="Última">
+              <a class="page-link" href="?page={{ bajas.paginator.num_pages }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}" aria-label="Última">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
@@ -236,6 +236,26 @@
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label for="anexo_a2" class="form-label">Anexo A2</label>
+                            <select class="form-select" id="anexo_a2" name="anexo_a2">
+                                <option value="">Seleccionar valor</option>
+                                <option value="si">si</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="anexo_a3" class="form-label">Anexo A3</label>
+                            <select class="form-select" id="anexo_a3" name="anexo_a3">
+                                <option value="">Seleccionar valor</option>
+                                <option value="si">si</option>
+                                <option value="no">no</option>
+                            </select>
+                        </div>
+                    </div>
+                    {% comment %} <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="anexo_a2" class="form-label">Anexo A2</label>
                             <input type="text" class="form-control" id="anexo_a2" autocomplete="off" name="anexo_a2">                                
                             </input>
                         </div>
@@ -246,7 +266,7 @@
                             <input type="text" class="form-control" id="anexo_a3" autocomplete="off" name="anexo_a3">                                
                             </input>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     
                     <!--fin anexos filtros-->
                 </div>
