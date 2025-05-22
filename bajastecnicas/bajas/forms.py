@@ -80,6 +80,7 @@ class BajasForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        print("VALIDANDO BAJA...") 
         no_inv = cleaned_data.get("no_inv")
         inm_herramienta = cleaned_data.get("inm_herramienta")
 

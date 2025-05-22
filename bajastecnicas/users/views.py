@@ -31,12 +31,13 @@ def login_view(request):  # Cambiamos el nombre de la función aquí
             
     else:
         form = AuthenticationForm()
-    return render(request, "users/login.html", {"form": form})
+    return render(request, "registration/login.html", {"form": form})
 
 def logout_view(request):
     if request.method == "POST":
         logout(request)
-        return redirect("bajas:list")
+        #return redirect("bajas:list")
+        return redirect("/")
     # Si la solicitud es GET, redirige a la página principal
     return redirect("bajas:list")
 

@@ -11,7 +11,7 @@ urlpatterns = [
     path('crear-baja/', views.crear_baja, name="crear-baja"),
     path('<int:id>/eliminar', views.eliminar_baja, name='eliminar_baja'),
     path('<int:id>/editar', views.editar_baja, name='editar_baja'),                                 
-    path('<int:id>/exportar', views.exportar_pdf, name='exportar_pdf'), 
+    # path('<int:id>/exportar', views.exportar_pdf, name='exportar_pdf'), 
     path('<int:id>/subir_anexo/', views.subir_anexo_firmado, name='subir_anexo'),
 
     path('<int:id>/aprobar_anexoA/', views.aprobar_anexoA, name='aprobar_anexoA'),
@@ -36,7 +36,8 @@ urlpatterns = [
 
     path('cargar_excel_inv/', views.cargar_excel_inv, name='cargar_excel_inv'),    
     # Ruta para buscar inventarios
-    path('buscar_inventario/', views.buscar_inventario, name='buscar_inventario'),                          
+    path('buscar_inventario/', views.buscar_inventario, name='buscar_inventario'),  
+    path('descargar_anexos/<int:id>/', views.descargar_anexos_zip, name='descargar_anexos'),                        
 ]
 
 # Para servir archivos estáticos y de medios si estamos en modo DEBUG

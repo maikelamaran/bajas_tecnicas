@@ -299,15 +299,17 @@
                 <tr>
                     <td>
                         <div class="d-flex justify-content-start">
-                            <a href="{% url 'bajas:exportar_pdf' baja.id %}" class="btn btn-info me-2">PDF</a>
-                            <a href="{% url 'bajas:editar_baja' baja.id %}" class="btn btn-secondary me-2">Editar</a>
-                            <button 
-                                class="btn btn-danger me-2"
-                                data-bs-toggle="modal"
-                                data-bs-target="#confirmDeleteModal"
-                                data-id="{{ baja.id }}">
-                                Eliminar
-                            </button>
+                            <a href="{% url 'bajas:descargar_anexos' baja.id %}" class="btn btn-info me-2">Descargar Anexos</a>
+                            {% if puede_admin_roles %}
+                                <a href="{% url 'bajas:editar_baja' baja.id %}" class="btn btn-secondary me-2">Editar</a>
+                                <button 
+                                    class="btn btn-danger me-2"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#confirmDeleteModal"
+                                    data-id="{{ baja.id }}">
+                                    Eliminar
+                                </button>
+                            {% endif %}
                             {% if baja.archivo_anexo_0 %}
                                 <a href="{{ baja.archivo_anexo_0.url }}" class="btn btn-warning me-2" target="_blank">Anexo 0</a>
                             {% endif %}

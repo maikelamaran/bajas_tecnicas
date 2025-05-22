@@ -28,6 +28,10 @@ from django.contrib import messages
 import os
 from django.contrib.auth import get_user_model
 User = get_user_model()
+from .decorators import solo_admin_roles
+import zipfile
+
+from io import BytesIO
 # Create your views here.
 
 
@@ -145,7 +149,7 @@ def bajas_list(request):
     bajas = paginator.get_page(page_number)
 
     context = {
-        "bajas": bajas,
+        "bajas": bajas,        
         "puede_aprobar_anexo_a": request.user.has_perm("users.aprobar_anexo_a"),
         "puede_llenar_anexo_a": request.user.has_perm("users.llenar_anexo_a"),
         "puede_crear_anexo_a": request.user.has_perm("users.crear_anexo_a"),
@@ -230,35 +234,32 @@ def crear_baja(request):
         'no_inv_list': no_inv_list,  # Lista de números de inventario a enviar a la plantilla
     })
 
-
+@login_required
+@solo_admin_roles
 def eliminar_baja(request, id):
-    is_ledesma = request.user.username.lower() == 'ledesma'
     baja = get_object_or_404(Bajas, pk=id)
 
-    if request.method == 'POST':  # verifica si el método es POST
-        if is_ledesma:  # Si el usuario es 'ledesma', permite la eliminación
-            baja.delete()
-            # Redirige a la lista después de eliminar
-            return redirect('bajas:list')
-        else:
-            # Si no es 'ledesma', muestra el acceso denegado
-            return render(request, 'bajas/acceso_denegado.html')
+    if request.method == 'POST':
+        baja.delete()
+        return redirect('bajas:list')
 
-    # Si no es POST, también puede manejarse aquí (aunque generalmente los formularios de eliminación usan POST)
-    return render(request, 'bajas/acceso_denegado.html')
+    return render(request, 'bajas/acceso_denegado.html')  # o podrías redirigir si no usas confirmación
 
 
+@login_required
+@solo_admin_roles
 def editar_baja(request, id):
     baja = get_object_or_404(Bajas, pk=id)
-    is_ledesma = request.user.username.lower() == 'ledesma'
+
     if request.method == 'POST':
-        form = BajasForm(request.POST, request.FILES, instance=baja, user=request.user)  # 👈 PASAR user AQUÍ
+        form = BajasForm(request.POST, request.FILES, instance=baja, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('bajas:list')
     else:
-        form = BajasForm(instance=baja, user=request.user)  # 👈 PASAR user AQUÍ
-    return render(request, 'bajas/editar_bajas.html', {'form': form, 'baja': baja, 'is_ledesma': is_ledesma})
+        form = BajasForm(instance=baja, user=request.user)
+
+    return render(request, 'bajas/editar_bajas.html', {'form': form, 'baja': baja})
 
 
 def image_to_base64(image_path):
@@ -266,25 +267,29 @@ def image_to_base64(image_path):
         return base64.b64encode(img_file.read()).decode('utf-8')
 
 
-def exportar_pdf(request, id):
+def descargar_anexos_zip(request, id):
     baja = get_object_or_404(Bajas, id=id)
-    if baja.foto:
-        img_data = image_to_base64(baja.foto.path)
-        img_tag = f"data:image/jpeg;base64,{img_data}"
-    else:
-        img_tag = None
 
-    # Generar el HTML que va a ser convertido a PDF
-    context = {'baja': baja, 'img_tag': img_tag}
-    html_string = render_to_string('bajas/pdf_template.html', context)
+    archivos = {
+        "anexo_0.pdf": baja.archivo_anexo_0,
+        "anexo_a.pdf": baja.archivo_anexo_a,
+        "anexo_a1.pdf": baja.archivo_anexo_a1,
+        "anexo_a2.pdf": baja.archivo_anexo_a2,
+        "anexo_a3.pdf": baja.archivo_anexo_a3,
+        "mov_aft.pdf": baja.archivo_mov_aft,
+    }
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="baja_{baja.id}.pdf"'
+    # Crear un ZIP en memoria
+    zip_buffer = BytesIO()
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+        for nombre_archivo, archivo_field in archivos.items():
+            if archivo_field and archivo_field.path and os.path.exists(archivo_field.path):
+                zip_file.write(archivo_field.path, arcname=nombre_archivo)
 
-    pisa_status = pisa.CreatePDF(html_string, dest=response)
+    zip_buffer.seek(0)
 
-    if pisa_status.err:
-        return HttpResponse('Hubo un error al generar el PDF', status=400)
+    response = HttpResponse(zip_buffer, content_type='application/zip')
+    response['Content-Disposition'] = f'attachment; filename="anexos_baja_{baja.id}.zip"'
 
     return response
 
