@@ -310,9 +310,7 @@
                                     Eliminar
                                 </button>
                             {% endif %}
-                            {% if baja.archivo_anexo_0 %}
-                                <a href="{{ baja.archivo_anexo_0.url }}" class="btn btn-warning me-2" target="_blank">Anexo 0</a>
-                            {% endif %}
+                           
                              <!--botones para hacer los anexos -->
                              <!--inicio de anexo A-->
                             {% if puede_aprobar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and baja.archivo_anexo_a1 and not baja.aprobado_anexoA %}
