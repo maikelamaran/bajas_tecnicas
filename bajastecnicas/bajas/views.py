@@ -34,7 +34,7 @@ import zipfile
 from io import BytesIO
 # Create your views here.
 
-
+@login_required
 def bajas_list(request):
     puede_admin_roles = request.user.is_superuser or request.user.has_perm("users.administrador_roles")
     bajass = Bajas.objects.all()
