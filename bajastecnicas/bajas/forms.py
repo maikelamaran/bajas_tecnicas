@@ -19,7 +19,7 @@ class BajasForm(forms.ModelForm):
         fields = [
             "no_inv", "inm_herramienta", "denominacion_SAP", "unidad_org", "area_pertenece","fabricante","modelo","estado_actual","descripcion_est_actual","uso_actual","foto", "observaciones", 
             "estado", "motivo_baja", "destino_final", "años_explotacion", "valor_residual", 
-            "detalle","argumento_deteriorado","argumento_obsoleto", "fecha_solicitud","archivo_anexo_0", "archivo_anexo_a", "archivo_anexo_a1","archivo_anexo_a2","archivo_anexo_a3", "archivo_mov_aft","responsable"
+            "detalle","argumento_deteriorado","argumento_obsoleto", "fecha_solicitud", "archivo_mov_aft","responsable"
         ]
         
 
@@ -54,11 +54,11 @@ class BajasForm(forms.ModelForm):
             'argumento_deteriorado': forms.TextInput(attrs={'class': 'form-control'}),
             'argumento_obsoleto': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha_solicitud' : forms.DateInput(attrs={'type': 'date'}),
-            'archivo_anexo_0': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'archivo_anexo_a': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'archivo_anexo_a1': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
-            'archivo_anexo_a2': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
-            'archivo_anexo_a3': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
+            # 'archivo_anexo_0': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            # 'archivo_anexo_a': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            # 'archivo_anexo_a1': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
+            # 'archivo_anexo_a2': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
+            # 'archivo_anexo_a3': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
                  
             'archivo_mov_aft': forms.ClearableFileInput(attrs={'class': 'form-control'}),   
             'responsable': forms.Select(attrs={'class': 'form-control'})
