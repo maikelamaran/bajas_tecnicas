@@ -1,6 +1,6 @@
 from django import forms
 from . import models
-from .choices import ESTADO_ACTUAL_CHOICES, ESTADO_CHOICES, MOTIVO_BAJA_CHOICES, DESTINO_FINAL_CHOICES, ANEXOS_CHOICES, UNIDAD_ORGANIZATIVA_CHOICES, DETALLES_CHOICES,AREA_PERTENECE
+from .choices import ESTADO_ACTUAL_CHOICES,RECHAZADA_CHOICES, ESTADO_CHOICES, MOTIVO_BAJA_CHOICES, DESTINO_FINAL_CHOICES, ANEXOS_CHOICES, UNIDAD_ORGANIZATIVA_CHOICES, DETALLES_CHOICES,AREA_PERTENECE
 from django.contrib.auth.models import User
 
 class BajasForm(forms.ModelForm):  
@@ -12,12 +12,13 @@ class BajasForm(forms.ModelForm):
         if user and not (user.is_superuser or user.has_perm("users.administrador_roles")):
             self.fields['responsable'].disabled = True
             self.fields['responsable'].help_text = "Solo los administradores de roles pueden modificar este campo."
+        self.fields['rechazada'].help_text = "Una vez rechazada la solicitud pásela a <strong>No</strong> cuando vaya a llenar los campos que le faltaron."
 
     # Campos del formulario
     class Meta:
         model = models.Bajas
         fields = [
-            "no_inv", "inm_herramienta", "denominacion_SAP", "unidad_org", "area_pertenece","fabricante","modelo","estado_actual","descripcion_est_actual","uso_actual","foto", "observaciones", 
+            "no_inv", "inm_herramienta", "rechazada","denominacion_SAP", "unidad_org", "area_pertenece","fabricante","modelo","estado_actual","descripcion_est_actual","uso_actual","foto", "observaciones", 
             "estado", "motivo_baja", "destino_final", "años_explotacion", "valor_residual", 
             "detalle","argumento_deteriorado","argumento_obsoleto", "fecha_solicitud", "archivo_mov_aft","responsable"
         ]
@@ -26,6 +27,7 @@ class BajasForm(forms.ModelForm):
         widgets = {
             'no_inv': forms.TextInput(attrs={'class': 'form-control'}),
             'inm_herramienta': forms.TextInput(attrs={'class': 'form-control'}),
+            'rechazada': forms.Select(attrs={'class': 'form-control'}, choices=RECHAZADA_CHOICES),
             'denominacion_SAP': forms.TextInput(attrs={'class': 'form-control'}),
             'unidad_org': forms.Select(attrs={'class': 'form-control'}, choices=UNIDAD_ORGANIZATIVA_CHOICES),
             'area_pertenece': forms.TextInput(attrs={'class': 'form-control'}),

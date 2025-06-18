@@ -21,7 +21,21 @@
         <div class="col-md-6">
             <h2 class="text-primary">{{ baja.no_inv|default:baja.inm_herramienta }}</h2>
             <h4 class="text-muted">{{ baja.denominacion_SAP }}</h4>
-            <p class="fs-5 badge bg-success"><strong>Responsable: </strong> {{ baja.responsable }}</p>
+            <p class="fs-5 badge bg-success"><strong>Responsable: </strong> 
+                {% if not baja.responsable  %}
+                    <span>No asignado</span>
+                    {% else %}
+                    {{ baja.responsable }}</p>
+                {% endif %}  
+            </p>
+            <p class="fs-5"><strong>Rechazada: </strong> 
+                {% if baja.rechazada == True %}
+                    <span class="badge bg-danger">Si</span>
+                    {% else %}
+                    <span class="badge bg-success">No</span>
+                {% endif %}
+            
+            </p>
             <p class="fs-5"><strong>Fecha creación:</strong> {{ baja.date }}</p>
             <p class="fs-5"><strong>Unidad Org:</strong> {{ baja.unidad_org }}</p>
             <p class="fs-5"><strong>Motivo de Baja:</strong> {{ baja.motivo_baja }}</p>
@@ -72,6 +86,14 @@
                         <span class="badge bg-danger">{{ baja.anexo_0 }}</span>
                     {% endif %}
                    
+                </li>                
+                <li><strong>Anexo A1:</strong>
+                    {% if baja.anexo_a1 == 'si' %}
+                    <span class="badge bg-success">{{ baja.anexo_a1 }}</span>                    
+                    {% else %}
+                        <span class="badge bg-danger">{{ baja.anexo_a1 }}</span>
+                    {% endif %}
+                     
                 </li>
                 <li><strong>Anexo A:</strong> 
                     {% if baja.anexo_a == 'si' %}
@@ -81,14 +103,6 @@
                     {% endif %}
                    
                 </li>
-                <li><strong>Anexo A1:</strong>
-                    {% if baja.anexo_a1 == 'si' %}
-                    <span class="badge bg-success">{{ baja.anexo_a1 }}</span>                    
-                    {% else %}
-                        <span class="badge bg-danger">{{ baja.anexo_a1 }}</span>
-                    {% endif %}
-                     
-                    </li>
                 <li><strong>Anexo A2:</strong>
                     {% if baja.anexo_a2 == 'si' %}
                     <span class="badge bg-success">{{ baja.anexo_a2 }}</span>                    

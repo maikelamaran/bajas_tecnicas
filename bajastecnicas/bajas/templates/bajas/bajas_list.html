@@ -51,12 +51,12 @@
           <ul class="pagination">
             {% if bajas.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page=1{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}" aria-label="Primera">
+                <a class="page-link" href="?page=1{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}{% if request.GET.rechazada %}&rechazada={{ request.GET.rechazada }}{% endif %}" aria-label="Primera">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ bajas.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}" aria-label="Anterior">
+                <a class="page-link" href="?page={{ bajas.previous_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}{% if request.GET.rechazada %}&rechazada={{ request.GET.rechazada }}{% endif %}" aria-label="Anterior">
                 <span aria-hidden="true">&lt;</span>
               </a>
             </li>
@@ -68,12 +68,12 @@
             
             {% if bajas.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ bajas.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}" aria-label="Siguiente">
+                <a class="page-link" href="?page={{ bajas.next_page_number }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}{% if request.GET.rechazada %}&rechazada={{ request.GET.rechazada }}{% endif %}" aria-label="Siguiente">
                 <span aria-hidden="true">&gt;</span>
               </a>
             </li>
             <li class="page-item">
-              <a class="page-link" href="?page={{ bajas.paginator.num_pages }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}" aria-label="Última">
+              <a class="page-link" href="?page={{ bajas.paginator.num_pages }}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.noinv_herramienta %}&noinv_herramienta={{ request.GET.noinv_herramienta }}{% endif %}{% if request.GET.fecha_inicio %}&fecha_inicio={{ request.GET.fecha_inicio }}{% endif %}{% if request.GET.fecha_fin %}&fecha_fin={{ request.GET.fecha_fin }}{% endif %}{% if request.GET.fecha_inicio_solic %}&fecha_inicio_solic={{ request.GET.fecha_inicio_solic }}{% endif %}{% if request.GET.fecha_fin_solic %}&fecha_fin_solic={{ request.GET.fecha_fin_solic }}{% endif %}{% if request.GET.estado %}&estado={{ request.GET.estado }}{% endif %}{% if request.GET.unidad_org %}&unidad_org={{ request.GET.unidad_org }}{% endif %}{% if request.GET.motivo_baja %}&motivo_baja={{ request.GET.motivo_baja }}{% endif %}{% if request.GET.destino_final %}&destino_final={{ request.GET.destino_final }}{% endif %}{% if request.GET.anexo_a %}&anexo_a={{ request.GET.anexo_a }}{% endif %}{% if request.GET.anexo_a1 %}&anexo_a1={{ request.GET.anexo_a1 }}{% endif %}{% if request.GET.anexo_a2 %}&anexo_a2={{ request.GET.anexo_a2 }}{% endif %}{% if request.GET.anexo_a3 %}&anexo_a3={{ request.GET.anexo_a3 }}{% endif %}{% if request.GET.responsable %}&responsable={{ request.GET.responsable }}{% endif %}{% if request.GET.rechazada %}&rechazada={{ request.GET.rechazada }}{% endif %}" aria-label="Última">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
@@ -111,6 +111,16 @@
                                 <option value="">Seleccionar Motivo</option>
                                 <option value="Obsolescencia">Obsolescencia</option>
                                 <option value="deterioro">Deterioro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label for="rechazada" class="form-label">Rechazada</label>
+                            <select class="form-select" id="rechazada" name="rechazada">
+                                <option value="">Seleccione valor</option>
+                                <option value="True">Sí</option>
+                                <option value="False">No</option>
                             </select>
                         </div>
                     </div>
@@ -284,6 +294,7 @@
                     <th>Acciones</th>
                     <th>Ver Detalles</th>
                     <th>No. Inventario <br> Inm_herramienta</th>
+                    <th>¿ Rechazada ? </th>
                     <th>Denominacion SAP</th>
                     <th>Unidad Organizativa</th>
                     <th>Motivo de Baja</th>
@@ -313,49 +324,49 @@
                            
                              <!--botones para hacer los anexos -->
                              <!--inicio de anexo A-->
-                            {% if puede_aprobar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and baja.archivo_anexo_a1 and not baja.aprobado_anexoA %}
+                            {% if puede_aprobar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and baja.archivo_anexo_a1 and not baja.aprobado_anexoA and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:aprobar_anexoA' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A</a>
                             {% endif %}
-                            {% if puede_llenar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and not baja.informacion_anexo_a_completa and baja.aprobado_anexoA %}
+                            {% if puede_llenar_anexo_a and baja.listopara_anexo_A and not baja.archivo_anexo_a and not baja.informacion_anexo_a_completa and baja.aprobado_anexoA and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:trabajar_anexoA' baja.id %}" class="btn btn-warning">Llenar datos Anexo A</a>                                
                             {% endif %}                            
-                            {% if puede_crear_anexo_a and baja.informacion_anexo_a_completa and not baja.archivo_anexo_a %}
+                            {% if puede_crear_anexo_a and baja.informacion_anexo_a_completa and not baja.archivo_anexo_a and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:crear_anexoA' baja.id %}" class="btn btn-warning me-2">Crear Anex A</a>
                             {% endif %}
                             <!--fin de anexo A-->
 
                             <!--inicio de anexo A1-->
-                            {% if puede_aprobar_anexo_a1 and baja.listopara_anexo_A1 and not baja.archivo_anexo_a1 and baja.archivo_anexo_0 and not baja.aprobado_anexoA1 %}
+                            {% if puede_aprobar_anexo_a1 and baja.listopara_anexo_A1 and not baja.archivo_anexo_a1 and baja.archivo_anexo_0 and not baja.aprobado_anexoA1 and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:aprobar_anexoA1' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A1</a>
                             {% endif %}
-                            {% if puede_llenar_anexo_a1  and baja.listopara_anexo_A1 and not baja.archivo_anexo_a1 and not baja.informacion_anexo_a1_completa and baja.aprobado_anexoA1 %}
+                            {% if puede_llenar_anexo_a1  and baja.listopara_anexo_A1 and not baja.archivo_anexo_a1 and not baja.informacion_anexo_a1_completa and baja.aprobado_anexoA1 and baja.responsable.username == user.username and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:trabajar_anexoA1' baja.id %}" class="btn btn-warning">Llenar datos Anexo A1</a>
                             {% endif %}
-                            {% if puede_crear_anexo_a1 and baja.informacion_anexo_a1_completa and not baja.archivo_anexo_a1 %}
+                            {% if puede_crear_anexo_a1 and baja.informacion_anexo_a1_completa and not baja.archivo_anexo_a1 and baja.responsable.username == user.username and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:crear_anexoA1' baja.id %}" class="btn btn-warning me-2">Crear Anex A1</a>
                             {% endif %}
                             <!--fin de anexo A1-->
 
                             <!--inicio de anexo A2-->
-                            {% if puede_aprobar_anexo_a2 and baja.listopara_anexo_A2 and not baja.archivo_anexo_a2 and baja.archivo_anexo_a1 and not baja.aprobado_anexoA2 %}
+                            {% if puede_aprobar_anexo_a2 and baja.listopara_anexo_A2 and not baja.archivo_anexo_a2 and baja.archivo_anexo_a1 and not baja.aprobado_anexoA2 and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:aprobar_anexoA2' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A2</a>
                             {% endif %}
-                            {% if  puede_llenar_anexo_a2  and baja.listopara_anexo_A2 and not baja.archivo_anexo_a2 and not baja.informacion_anexo_a2_completa and baja.aprobado_anexoA2 %}
+                            {% if  puede_llenar_anexo_a2  and baja.listopara_anexo_A2 and not baja.archivo_anexo_a2 and not baja.informacion_anexo_a2_completa and baja.aprobado_anexoA2 and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:trabajar_anexoA2' baja.id %}" class="btn btn-warning">Llenar datos Anexo A2</a>
                             {% endif %}
-                            {% if puede_crear_anexo_a2 and baja.informacion_anexo_a2_completa and not baja.archivo_anexo_a2 %}
+                            {% if puede_crear_anexo_a2 and baja.informacion_anexo_a2_completa and not baja.archivo_anexo_a2 and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:crear_anexoA2' baja.id %}" class="btn btn-warning me-2">Crear Anex A2</a>
                             {% endif %}
                             <!--fin de anexo A2-->
 
                             <!--inicio de anexo A3-->
-                            {% if puede_aprobar_anexo_a3 and baja.listopara_anexo_A3 and not baja.archivo_anexo_a3 and baja.archivo_anexo_a2 and not baja.aprobado_anexoA3 %}
+                            {% if puede_aprobar_anexo_a3 and baja.listopara_anexo_A3 and not baja.archivo_anexo_a3 and baja.archivo_anexo_a2 and not baja.aprobado_anexoA3 and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:aprobar_anexoA3' baja.id %}" class="btn btn-warning me-2">Aprobar Anex A3</a>
                             {% endif %}
-                            {% if  puede_llenar_anexo_a3  and baja.listopara_anexo_A3 and not baja.archivo_anexo_a3 and not baja.informacion_anexo_a3_completa and baja.aprobado_anexoA3 %}
+                            {% if  puede_llenar_anexo_a3  and baja.listopara_anexo_A3 and not baja.archivo_anexo_a3 and not baja.informacion_anexo_a3_completa and baja.aprobado_anexoA3 and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:trabajar_anexoA3' baja.id %}" class="btn btn-warning">Llenar datos Anexo A3</a>
                             {% endif %}
-                            {% if puede_crear_anexo_a3 and baja.informacion_anexo_a3_completa and not baja.archivo_anexo_a3 %}
+                            {% if puede_crear_anexo_a3 and baja.informacion_anexo_a3_completa and not baja.archivo_anexo_a3 and baja.responsable.username == user.username %}
                                 <a href="{% url 'bajas:crear_anexoA3' baja.id %}" class="btn btn-warning me-2">Crear Anex A3</a>
                             {% endif %}
                             <!--fin de anexo A3-->
@@ -368,7 +379,18 @@
                     </td>
                     <td><a href="{% url 'bajas:baja-page' id=baja.id %}" class="btn btn-outline-primary btn-sm">Ver detalles</a></td>
                     <td>{{ baja.no_inv|default:baja.inm_herramienta }}</td>
-                    <td>{{ baja.denominacion_SAP }}</td>
+                    <td {% if baja.rechazada == True %}
+                            class="bg-danger"
+                        {% else %}
+                            class="bg-success"
+                        {% endif %}
+                    >
+                        {% if baja.rechazada == True %}
+                            <span class="badge bg-danger">SI</span>
+                        {% else %}
+                            <span class="badge bg-success">NO</span>
+                        {% endif %}</td>
+                    <td>{{ baja.denominacion_SAP }}</td>                    
                     <td>{{ baja.unidad_org }}</td>
                     <td>{{ baja.motivo_baja }}</td>
                     <td>{{ baja.destino_final }}</td>

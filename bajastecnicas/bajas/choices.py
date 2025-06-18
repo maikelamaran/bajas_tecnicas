@@ -85,6 +85,10 @@ ESTADO_ACTUAL_CHOICES = [
     ('Regular', 'Regular'),
     ('Bueno', 'Bueno'), 
 ]
+RECHAZADA_CHOICES = [
+    ('False', 'No'),
+    ('True', 'Si'),    
+]
 
 AREA_PERTENECE = [
     ('DTAR, Dirección', 'DTAR, Dirección'),

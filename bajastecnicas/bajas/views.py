@@ -53,6 +53,7 @@ def bajas_list(request):
     anexo_a1 = request.GET.get('anexo_a1')
     anexo_a2 = request.GET.get('anexo_a2')
     anexo_a3 = request.GET.get('anexo_a3')
+    rechazada = request.GET.get('rechazada')
 
     # Filtro por responsable (ID de usuario)
     responsable_id = request.GET.get('responsable')
@@ -95,6 +96,9 @@ def bajas_list(request):
 
     if estado:
         bajass = bajass.filter(estado=estado)
+
+    if rechazada:
+        bajass = bajass.filter(rechazada=rechazada)
 
     if unidad_org:
         bajass = bajass.filter(unidad_org=unidad_org)
@@ -246,6 +250,21 @@ def eliminar_baja(request, id):
     return render(request, 'bajas/acceso_denegado.html')  # o podrías redirigir si no usas confirmación
 
 
+# @login_required
+# @solo_admin_roles
+# def editar_baja(request, id):
+#     baja = get_object_or_404(Bajas, pk=id)
+
+#     if request.method == 'POST':
+#         form = BajasForm(request.POST, request.FILES, instance=baja, user=request.user)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('bajas:list')
+#     else:
+#         form = BajasForm(instance=baja, user=request.user)
+
+#     return render(request, 'bajas/editar_bajas.html', {'form': form, 'baja': baja})
+
 @login_required
 @solo_admin_roles
 def editar_baja(request, id):
@@ -254,6 +273,35 @@ def editar_baja(request, id):
     if request.method == 'POST':
         form = BajasForm(request.POST, request.FILES, instance=baja, user=request.user)
         if form.is_valid():
+            #baja.archivo_anexo_a1  si el archivo existe es un path ponerlo a null
+            #baja.listopara_anexo_A1 ojo aqui pongo en false el que viene, estos estan en el crear anexo anterior, nada mas se crea esta variable del proximo le doy true
+            #baja.informacion_anexo_a1_completa  una vez que lleno los datos de cada anexo esto lo pongo en true
+            #baja.aprobado_anexoA1 esto es quien me dice si esta aprobado o no , ponerlo en false
+            #TODO tengo que ser capaz de saber si lo esta editando por primera vez si no cada vez que una vez rechazada lo voy a editar me vuelve al mismo paso de las banderas
+            if baja.rechazada == True: 
+                if ( baja.aprobado_anexoA3 ==False and baja.aprobado_anexoA2 ==False and baja.aprobado_anexoA ==False  and baja.aprobado_anexoA1 ==False):
+                    baja.listopara_anexo_A1=False                    
+                    baja.archivo_anexo_0 = ''
+                if ( baja.aprobado_anexoA3 ==False and baja.aprobado_anexoA2 ==False and baja.aprobado_anexoA ==False and baja.aprobado_anexoA1 ==True):
+                    baja.listopara_anexo_A=False
+                    baja.archivo_anexo_a1 = ''
+                    baja.informacion_anexo_a1_completa = False
+                    baja.aprobado_anexoA1 =False
+                if ( baja.aprobado_anexoA3 ==False and baja.aprobado_anexoA2 ==False and baja.aprobado_anexoA ==True and baja.aprobado_anexoA1 ==True):
+                    baja.listopara_anexo_A2=False
+                    baja.archivo_anexo_a = ''
+                    baja.informacion_anexo_a_completa = False
+                    baja.aprobado_anexoA =False
+                if ( baja.aprobado_anexoA3 ==False and baja.aprobado_anexoA2 ==True and baja.aprobado_anexoA ==True and baja.aprobado_anexoA1 ==True):
+                    baja.listopara_anexo_A3=False
+                    baja.archivo_anexo_a2 = ''
+                    baja.informacion_anexo_a2_completa = False
+                    baja.aprobado_anexoA2 =False
+                if ( baja.aprobado_anexoA3 ==True and baja.aprobado_anexoA2 ==True and baja.aprobado_anexoA ==True and baja.aprobado_anexoA1 ==True):                    
+                    baja.archivo_anexo_a3 = ''
+                    baja.informacion_anexo_a3_completa = False
+                    baja.aprobado_anexoA3 =False
+
             form.save()
             return redirect('bajas:list')
     else:
