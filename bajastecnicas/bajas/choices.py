@@ -1,5 +1,6 @@
 # Definir las opciones de los campos de selección en un solo archivo
 ESTADO_CHOICES = [
+    ('', 'Elige un estado'),
     ('No Procede', 'No Procede'),
     ('Presentar a CBT', 'Presentar a CBT'),
     ('Presentar a CBN', 'Presentar a CBN'),
@@ -15,11 +16,13 @@ ESTADO_CHOICES = [
 ]
 
 MOTIVO_BAJA_CHOICES = [
+    ('','Elija un motivo'),
     ('Obsolescencia', 'Obsolescencia'),
     ('deterioro', 'Deterioro'),
 ]
 
 DESTINO_FINAL_CHOICES = [  
+    ('', 'Elige un Destino'),
     ('materia prima', 'Materia Prima'),  
     ('radioaficionados', 'Radioaficionados'),
     ('otro', 'Otro'),
@@ -31,6 +34,7 @@ ANEXOS_CHOICES = [
 ]
 
 UNIDAD_ORGANIZATIVA_CHOICES = [
+    ('','Elija una Unidad'),
     ('DTAR, Dirección', 'DTAR, Dirección'),
     ('DTAR, Dpto. Coordinación General', 'DTAR, Dpto. Coordinación General'),
     ('DTAR, Dpto. Economía', 'DTAR, Dpto. Economía'),
@@ -75,12 +79,14 @@ UNIDAD_ORGANIZATIVA_CHOICES = [
 ]
 
 DETALLES_CHOICES = [
+    ('','Elija uno'),
     ('DETERIORADO ÚTIL', 'DETERIORADO ÚTIL'),
     ('DETERIORADO NO ÚTIL', 'DETERIORADO NO ÚTIL'),    
     ('OBSOLETO REUTILIZABLE', 'OBSOLETO REUTILIZABLE'),    
     ('OBSOLETO NO REUTILIZABLE', 'OBSOLETO NO REUTILIZABLE'),    
 ]
 ESTADO_ACTUAL_CHOICES = [
+    ('', 'Elija un estado'),
     ('Malo', 'Malo'),
     ('Regular', 'Regular'),
     ('Bueno', 'Bueno'), 
@@ -91,6 +97,7 @@ RECHAZADA_CHOICES = [
 ]
 
 AREA_PERTENECE = [
+    ('','Elija un área'),
     ('DTAR, Dirección', 'DTAR, Dirección'),
     ('DTAR, Dpto. Coordinación General', 'DTAR, Dpto. Coordinación General'),
     ('DTAR, Dpto. Economía', 'DTAR, Dpto. Economía'),

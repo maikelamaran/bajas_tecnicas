@@ -14,6 +14,14 @@ class BajasForm(forms.ModelForm):
             self.fields['responsable'].help_text = "Solo los administradores de roles pueden modificar este campo."
         self.fields['rechazada'].help_text = "Una vez rechazada la solicitud pásela a <strong>No</strong> cuando vaya a llenar los campos que le faltaron."
 
+    def clean_foto(self):
+        foto = self.cleaned_data.get('foto')
+        if foto:
+            max_tamano = 1 * 1024 * 1024  # 2 MB, ajusta según lo que quieras permitir
+            if foto.size > max_tamano:
+                raise forms.ValidationError("La imagen excede el tamaño máximo permitido (1MB).")
+        return foto
+
     # Campos del formulario
     class Meta:
         model = models.Bajas
@@ -29,12 +37,12 @@ class BajasForm(forms.ModelForm):
             'inm_herramienta': forms.TextInput(attrs={'class': 'form-control'}),
             'rechazada': forms.Select(attrs={'class': 'form-control'}, choices=RECHAZADA_CHOICES),
             'denominacion_SAP': forms.TextInput(attrs={'class': 'form-control'}),
-            'unidad_org': forms.Select(attrs={'class': 'form-control'}, choices=UNIDAD_ORGANIZATIVA_CHOICES),
-            'area_pertenece': forms.TextInput(attrs={'class': 'form-control'}),
+            'unidad_org': forms.Select(attrs={'class': 'form-select'}, choices=UNIDAD_ORGANIZATIVA_CHOICES),
+            'area_pertenece': forms.TextInput(attrs={'class': 'form-select'}),
             # 'equipo': forms.TextInput(attrs={'class': 'form-control'}),
             'fabricante': forms.TextInput(attrs={'class': 'form-control'}),
             'modelo': forms.TextInput(attrs={'class': 'form-control'}),
-            'estado_actual': forms.Select(attrs={'class': 'form-control'}, choices=ESTADO_ACTUAL_CHOICES),
+            'estado_actual': forms.Select(attrs={'class': 'form-select'}, choices=ESTADO_ACTUAL_CHOICES),
             'descripcion_est_actual': forms.TextInput(attrs={'class': 'form-control'}),
             'uso_actual': forms.TextInput(attrs={'class': 'form-control'}),
             # 'anexo_a1': forms.Select(attrs={'class': 'form-control'}, choices=ANEXOS_CHOICES),

@@ -11,22 +11,22 @@ class Bajas(models.Model):
     no_inv = models.CharField( max_length=50,blank=True)
     inm_herramienta = models.CharField( max_length=50,blank=True)
     denominacion_SAP = models.CharField(max_length=100)
-    unidad_org = models.TextField()    
-    area_pertenece = models.TextField(blank=True)#nuevo  
+    unidad_org = models.CharField(max_length=100,default='',blank=True)    
+    area_pertenece = models.TextField(default='',blank=True)#nuevo  
     # equipo = models.CharField( max_length=50,blank=True)#nuevo
     fabricante = models.CharField( max_length=50,blank=True)#nuevo
     modelo = models.CharField( max_length=50,blank=True)#nuevo
-    estado_actual = models.CharField(max_length=100,choices=choices.ESTADO_ACTUAL_CHOICES, default='Malo')
+    estado_actual = models.CharField(max_length=100, default='',blank=True)
     descripcion_est_actual = models.CharField( max_length=50,blank=True)#nuevo
     uso_actual = models.CharField( max_length=50,blank=True)
     foto = models.ImageField(upload_to='uploaded/', blank=True, null=True)   
     observaciones = models.TextField(blank=True)
-    estado = models.CharField(max_length=100,choices=choices.ESTADO_CHOICES, default='No Procede')#no procede o procede o en_espera
-    motivo_baja = models.CharField(max_length=100)#Obsolescencia o deterioro
-    destino_final = models.TextField()
+    estado = models.CharField(max_length=100, default='No Procede')#no procede o procede o en_espera
+    motivo_baja = models.CharField(max_length=100,default='',blank=True)#Obsolescencia o deterioro
+    destino_final = models.CharField(max_length=100,default='',blank=True)
     años_explotacion = models.IntegerField()
     valor_residual = models.DecimalField(max_digits=12, decimal_places=2)
-    detalle = models.TextField(default='DETERIORADO ÚTIL')  
+    detalle = models.TextField(default='',blank=True)  
     argumento_deteriorado = models.CharField(max_length=100,blank=True) #TODO: hacer que solo salga con las opciones deteriorado 
     argumento_obsoleto = models.CharField(max_length=100,blank=True) #TODO: hacer que solo salga con las opciones obsoleto 
     date = models.DateTimeField(auto_now_add=True)
