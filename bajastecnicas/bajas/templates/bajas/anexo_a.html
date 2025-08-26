@@ -124,9 +124,12 @@
           </tr>
         </table>
         {% endcomment %}
+        <div style="text-align: right; font-size: 10px; margin-bottom: 10px;">
+          Creado por: {{ usuario.username }}
+        </div>
         <h2 style="text-align: left; margin-left: 50px">11.ANEXOS:</h2>
         <p style="text-align: left">
-          <strong>No 1. ANEXO 1,Solicitud de Baja Técnica</strong>
+          <strong>No 1. ANEXO A,Solicitud de Baja Técnica</strong>
         </p>
         <table class="cuerpo_pdf">
           <tr>
@@ -139,16 +142,16 @@
             </th>
           </tr>
           <tr>
-            <td colspan="4">Unidad Organizativa {{ baja.unidad_org }}</td>
+            <td colspan="4">Unidad Organizativa {{ baja.unidad_org|default:"&nbsp;"|safe }}</td>
           </tr>
           <tr>
             <td colspan="4">
-              Área a la que pertenece {{ baja.area_pertenece }}
+              Área a la que pertenece {{ baja.area_pertenece|default:"&nbsp;"|safe }}
             </td>
           </tr>
           <tr class="row-with-four-columns">
             <td colspan="4">
-              Fecha {{ baja.date }} No. Solicitud AHORA MISMO NO TENGO NO
+              Fecha {{ baja.date }} No. Solicitud : {{ baja.no_solicitud }}
             </td>
           </tr>
           <tr>
@@ -167,17 +170,17 @@
         </tr>
         <tr class="row-with-four-columns">
           <td>FABRICANTE:</td>
-          <td>{{ baja.fabricante }}</td>
+          <td>{{ baja.fabricante|default:"&nbsp;"|safe }}</td>
           <td>MODELO</td>
-          <td>{{ baja.modelo }}</td>
+          <td>{{ baja.modelo|default:"&nbsp;"|safe }}</td>
         </tr>
         <tr>
           <td>NÚMERO DE INVENTARIO</td>
-          <td colspan="3">{{ baja.no_inv }}</td>
+          <td colspan="3">{{ baja.no_inv|default:"&nbsp;"|safe }}</td>
         </tr>
         <tr>
           <td>AÑOS DE EXPLOTACIÓN</td>
-          <td colspan="3">{{ baja.años_explotacion }}</td>
+          <td colspan="3">{{ baja.años_explotacion|default:"&nbsp;"|safe }}</td>
         </tr>
       </table>
 
@@ -206,13 +209,13 @@
           <td class="background-gris-nocenter">Uso actual:</td>
         </tr>
         <tr>
-          <td>{{ baja.uso_actual }}</td>
+          <td>{{ baja.uso_actual|default:"&nbsp;"|safe }}</td>
         </tr>
         <tr>
           <td class="background-gris-nocenter">Propuesta de destino final:</td>
         </tr>
         <tr>
-          <td>{{ baja.destino_final }}</td>
+          <td>{{ baja.destino_final|default:"&nbsp;"|safe }}</td>
         </tr>
       </table>
 

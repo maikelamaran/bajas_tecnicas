@@ -1,3 +1,6 @@
+from io import BytesIO
+import zipfile
+from .decorators import solo_admin_roles
 import datetime
 from django.http import HttpResponse
 
@@ -28,17 +31,15 @@ from django.contrib import messages
 import os
 from django.contrib.auth import get_user_model
 User = get_user_model()
-from .decorators import solo_admin_roles
-import zipfile
 
-from io import BytesIO
 # Create your views here.
+
 
 @login_required
 def bajas_list(request):
-    puede_admin_roles = request.user.is_superuser or request.user.has_perm("users.administrador_roles")
+    puede_admin_roles = request.user.is_superuser or request.user.has_perm(
+        "users.administrador_roles")
     bajass = Bajas.objects.all()
-    
 
     noinv_herramienta = request.GET.get('noinv')
     fecha_inicio = request.GET.get('fecha_inicio')
@@ -54,6 +55,7 @@ def bajas_list(request):
     anexo_a2 = request.GET.get('anexo_a2')
     anexo_a3 = request.GET.get('anexo_a3')
     rechazada = request.GET.get('rechazada')
+    terminada = request.GET.get('terminada')
 
     # Filtro por responsable (ID de usuario)
     responsable_id = request.GET.get('responsable')
@@ -61,10 +63,31 @@ def bajas_list(request):
         bajass = bajass.filter(responsable_id=responsable_id)
 
     # Obtener solo los usuarios que ya están asignados como responsables en alguna baja
-    responsables_ids = Bajas.objects.exclude(responsable__isnull=True).values_list('responsable', flat=True).distinct()
+    responsables_ids = Bajas.objects.exclude(
+        responsable__isnull=True).values_list('responsable', flat=True).distinct()
     responsables = User.objects.filter(id__in=responsables_ids)
-    #responsables = User.objects.filter(id__in=responsables_ids).order_by('first_name', 'last_name', 'username')
+    # responsables = User.objects.filter(id__in=responsables_ids).order_by('first_name', 'last_name', 'username')
 
+    #filtros para mostrar solo los que van a anexo 2
+    rechazada_str = request.GET.get('rechazada')
+    listopara_anexo_A2_str = request.GET.get('listopara_anexo_A2')
+    listopara_anexo_A3_str = request.GET.get('listopara_anexo_A3')
+
+    # Convertir cadenas a booleanos para los filtros específicos
+    if rechazada_str is not None:
+        # 'True' se convierte a True, 'False' se convierte a False
+        rechazada = rechazada_str.lower() == 'true'
+        bajass = bajass.filter(rechazada=rechazada)
+
+    if listopara_anexo_A2_str is not None:
+        listopara_anexo_A2 = listopara_anexo_A2_str.lower() == 'true'
+        bajass = bajass.filter(listopara_anexo_A2=listopara_anexo_A2)
+
+    if listopara_anexo_A3_str is not None:
+        listopara_anexo_A3 = listopara_anexo_A3_str.lower() == 'true'
+        bajass = bajass.filter(listopara_anexo_A3=listopara_anexo_A3)
+    #fin de filtros para mostrar los que van a anexo 2
+    
     if noinv_herramienta:
 
         # bajas = bajas.filter(no_inv=noinv_herramienta)
@@ -74,7 +97,6 @@ def bajas_list(request):
     if fecha_inicio:
         bajass = bajass.filter(
             date__gte=datetime.strptime(fecha_inicio, '%Y-%m-%d'))
-
 
     if fecha_fin:
         bajass = bajass.filter(
@@ -96,6 +118,9 @@ def bajas_list(request):
 
     if estado:
         bajass = bajass.filter(estado=estado)
+
+    if terminada:
+        bajass = bajass.filter(terminada=terminada)
 
     if rechazada:
         bajass = bajass.filter(rechazada=rechazada)
@@ -145,15 +170,14 @@ def bajas_list(request):
     # if anexo_a3:
     #     bajass = bajass.filter(anexo_a3=anexo_a3)
 
-
-
     bajass = bajass.order_by('id')
-    paginator = Paginator(bajass, 3)#AQUI EL PAGINADOR COUNT, VOY A PROBAR CON 10
+    # AQUI EL PAGINADOR COUNT, VOY A PROBAR CON 10
+    paginator = Paginator(bajass, 3)
     page_number = request.GET.get('page')
     bajas = paginator.get_page(page_number)
 
     context = {
-        "bajas": bajas,        
+        "bajas": bajas,
         "puede_aprobar_anexo_a": request.user.has_perm("users.aprobar_anexo_a"),
         "puede_llenar_anexo_a": request.user.has_perm("users.llenar_anexo_a"),
         "puede_crear_anexo_a": request.user.has_perm("users.crear_anexo_a"),
@@ -170,7 +194,8 @@ def bajas_list(request):
         "puede_llenar_anexo_a3": request.user.has_perm("users.llenar_anexo_a3"),
         "puede_crear_anexo_a3": request.user.has_perm("users.crear_anexo_a3"),
         "puede_admin_roles": puede_admin_roles,
-        "responsables": responsables,#para tener la lista de usuarios que son responsables YA EN ALGUNA BAJA y pasarlo en los filtros
+        # para tener la lista de usuarios que son responsables YA EN ALGUNA BAJA y pasarlo en los filtros
+        "responsables": responsables,
     }
 
     # fin paginador
@@ -187,7 +212,8 @@ def bajas_page(request, id):
 def crear_baja(request):
     if request.method == 'POST':
         # Asegúrate de incluir request.FILES para manejar imágenes
-        form = BajasForm(request.POST, request.FILES, user=request.user)  # 👈 paso user aqui para poder manejar lo de solo ciertos usuarios editar responsable, pq pregunto siempre si eres cierto role
+        # 👈 paso user aqui para poder manejar lo de solo ciertos usuarios editar responsable, pq pregunto siempre si eres cierto role
+        form = BajasForm(request.POST, request.FILES, user=request.user)
 
         # Si el formulario es válido
         if form.is_valid():
@@ -196,20 +222,20 @@ def crear_baja(request):
 
             # Generar el PDF automáticamente
             context = {'baja': baja,
+                       'usuario': request.user,
                        "logo_etecsa": request.build_absolute_uri(static('bajastecnicas/icons/etecsa_logo.jpeg'))}
             html_string = render_to_string('bajas/anexo_a.html', context)
             html_string_a0 = render_to_string('bajas/anexo_0.html', context)
-            
+
             pdf_path_0 = f'anexos/anexo_{baja.id}_A0.pdf'
-            
 
             with default_storage.open(pdf_path_0, 'wb') as pdf_file:
                 pisa_status = pisa.CreatePDF(html_string_a0, dest=pdf_file)
                 if pisa_status.err:
-                    return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF a0'})           
+                    return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF a0'})
             baja.archivo_anexo_0 = pdf_path_0
-            baja.listopara_anexo_A1 = True            
-            baja.save()            
+            baja.listopara_anexo_A1 = True
+            baja.save()
             return redirect('bajas:list')
     else:
         form = BajasForm(user=request.user)
@@ -238,6 +264,7 @@ def crear_baja(request):
         'no_inv_list': no_inv_list,  # Lista de números de inventario a enviar a la plantilla
     })
 
+
 @login_required
 @solo_admin_roles
 def eliminar_baja(request, id):
@@ -247,7 +274,8 @@ def eliminar_baja(request, id):
         baja.delete()
         return redirect('bajas:list')
 
-    return render(request, 'bajas/acceso_denegado.html')  # o podrías redirigir si no usas confirmación
+    # o podrías redirigir si no usas confirmación
+    return render(request, 'bajas/acceso_denegado.html')
 
 
 # @login_required
@@ -271,36 +299,37 @@ def editar_baja(request, id):
     baja = get_object_or_404(Bajas, pk=id)
 
     if request.method == 'POST':
-        form = BajasForm(request.POST, request.FILES, instance=baja, user=request.user)
+        form = BajasForm(request.POST, request.FILES,
+                         instance=baja, user=request.user)
         if form.is_valid():
-            #baja.archivo_anexo_a1  si el archivo existe es un path ponerlo a null
-            #baja.listopara_anexo_A1 ojo aqui pongo en false el que viene, estos estan en el crear anexo anterior, nada mas se crea esta variable del proximo le doy true
-            #baja.informacion_anexo_a1_completa  una vez que lleno los datos de cada anexo esto lo pongo en true
-            #baja.aprobado_anexoA1 esto es quien me dice si esta aprobado o no , ponerlo en false
-            #TODO tengo que ser capaz de saber si lo esta editando por primera vez si no cada vez que una vez rechazada lo voy a editar me vuelve al mismo paso de las banderas
-            if baja.rechazada == True: 
-                if ( baja.aprobado_anexoA3 ==False and baja.aprobado_anexoA2 ==False and baja.aprobado_anexoA ==False  and baja.aprobado_anexoA1 ==False):
-                    baja.listopara_anexo_A1=False                    
+            # baja.archivo_anexo_a1  si el archivo existe es un path ponerlo a null
+            # baja.listopara_anexo_A1 ojo aqui pongo en false el que viene, estos estan en el crear anexo anterior, nada mas se crea esta variable del proximo le doy true
+            # baja.informacion_anexo_a1_completa  una vez que lleno los datos de cada anexo esto lo pongo en true
+            # baja.aprobado_anexoA1 esto es quien me dice si esta aprobado o no , ponerlo en false
+            # TODO tengo que ser capaz de saber si lo esta editando por primera vez si no cada vez que una vez rechazada lo voy a editar me vuelve al mismo paso de las banderas
+            if baja.rechazada == True:
+                if (baja.aprobado_anexoA3 == False and baja.aprobado_anexoA2 == False and baja.aprobado_anexoA == False and baja.aprobado_anexoA1 == False):
+                    baja.listopara_anexo_A1 = False
                     baja.archivo_anexo_0 = ''
-                if ( baja.aprobado_anexoA3 ==False and baja.aprobado_anexoA2 ==False and baja.aprobado_anexoA ==False and baja.aprobado_anexoA1 ==True):
-                    baja.listopara_anexo_A=False
+                if (baja.aprobado_anexoA3 == False and baja.aprobado_anexoA2 == False and baja.aprobado_anexoA == False and baja.aprobado_anexoA1 == True):
+                    baja.listopara_anexo_A = False
                     baja.archivo_anexo_a1 = ''
                     baja.informacion_anexo_a1_completa = False
-                    baja.aprobado_anexoA1 =False
-                if ( baja.aprobado_anexoA3 ==False and baja.aprobado_anexoA2 ==False and baja.aprobado_anexoA ==True and baja.aprobado_anexoA1 ==True):
-                    baja.listopara_anexo_A2=False
+                    baja.aprobado_anexoA1 = False
+                if (baja.aprobado_anexoA3 == False and baja.aprobado_anexoA2 == False and baja.aprobado_anexoA == True and baja.aprobado_anexoA1 == True):
+                    baja.listopara_anexo_A2 = False
                     baja.archivo_anexo_a = ''
                     baja.informacion_anexo_a_completa = False
-                    baja.aprobado_anexoA =False
-                if ( baja.aprobado_anexoA3 ==False and baja.aprobado_anexoA2 ==True and baja.aprobado_anexoA ==True and baja.aprobado_anexoA1 ==True):
-                    baja.listopara_anexo_A3=False
+                    baja.aprobado_anexoA = False
+                if (baja.aprobado_anexoA3 == False and baja.aprobado_anexoA2 == True and baja.aprobado_anexoA == True and baja.aprobado_anexoA1 == True):
+                    baja.listopara_anexo_A3 = False
                     baja.archivo_anexo_a2 = ''
                     baja.informacion_anexo_a2_completa = False
-                    baja.aprobado_anexoA2 =False
-                if ( baja.aprobado_anexoA3 ==True and baja.aprobado_anexoA2 ==True and baja.aprobado_anexoA ==True and baja.aprobado_anexoA1 ==True):                    
+                    baja.aprobado_anexoA2 = False
+                if (baja.aprobado_anexoA3 == True and baja.aprobado_anexoA2 == True and baja.aprobado_anexoA == True and baja.aprobado_anexoA1 == True):
                     baja.archivo_anexo_a3 = ''
                     baja.informacion_anexo_a3_completa = False
-                    baja.aprobado_anexoA3 =False
+                    baja.aprobado_anexoA3 = False
 
             form.save()
             return redirect('bajas:list')
@@ -324,7 +353,7 @@ def descargar_anexos_zip(request, id):
         "anexo_a1.pdf": baja.archivo_anexo_a1,
         "anexo_a2.pdf": baja.archivo_anexo_a2,
         "anexo_a3.pdf": baja.archivo_anexo_a3,
-        "mov_aft.pdf": baja.archivo_mov_aft,
+        
     }
 
     # Crear un ZIP en memoria
@@ -406,6 +435,8 @@ def buscar_inventario(request):
                     fecha_actual = datetime.now()
                     diferencia = fecha_actual - fecha_explotacion
                     años_explotacion = diferencia.days // 365  # Aprox. en años
+                    fecha_solicitud_str = fecha_explotacion.strftime("%Y-%m-%d")#para que tenga el formato que quiero convertida a string para pasarla por el json
+                                                                                #Un input type="date" solo acepta valores en formato YYYY-MM-DD, no con horas.
                 except ValueError:
                     años_explotacion = None  # En caso de formato incorrecto
             else:
@@ -418,6 +449,7 @@ def buscar_inventario(request):
                 'area_pertenece': area_pertenece,
                 # 'fabricante': fabricante,
                 # 'modelo': modelo,
+                'fecha_solicitud': fecha_solicitud_str,
                 'inm_herramienta': inm_herramienta
             })
 
@@ -425,6 +457,7 @@ def buscar_inventario(request):
             return JsonResponse({'error': str(e)}, status=500)
 
     return JsonResponse({'error': 'Número de inventario no proporcionado'}, status=400)
+
 
 @login_required
 def aprobar_anexoA(request, id):
@@ -434,6 +467,7 @@ def aprobar_anexoA(request, id):
     messages.success(request, "¡¡Aprobado el Anexo A!")
     return redirect('bajas:list')
 
+
 @login_required
 def aprobar_anexoA1(request, id):
     baja = get_object_or_404(Bajas, id=id)
@@ -441,6 +475,7 @@ def aprobar_anexoA1(request, id):
     baja.save()
     messages.success(request, "¡¡Aprobado el Anexo A1!")
     return redirect('bajas:list')
+
 
 @login_required
 def aprobar_anexoA2(request, id):
@@ -450,6 +485,7 @@ def aprobar_anexoA2(request, id):
     messages.success(request, "¡Aprobado el Anexo A2!")
     return redirect('bajas:list')
 
+
 @login_required
 def aprobar_anexoA3(request, id):
     baja = get_object_or_404(Bajas, id=id)
@@ -458,6 +494,7 @@ def aprobar_anexoA3(request, id):
     messages.success(request, "¡¡Aprobado el Anexo A3!")
     return redirect('bajas:list')
 
+
 @login_required
 def trabajar_anexoA(request, id):
     baja = get_object_or_404(Bajas, pk=id)
@@ -465,7 +502,7 @@ def trabajar_anexoA(request, id):
 
     if request.method == 'POST':
         form = BajasForm(request.POST, request.FILES, instance=baja)
-        if form.is_valid():  
+        if form.is_valid():
             baja = form.save(commit=False)
             baja.informacion_anexo_a_completa = True
             baja.save()
@@ -474,6 +511,7 @@ def trabajar_anexoA(request, id):
         form = BajasForm(instance=baja)
 
     return render(request, 'bajas/editar_bajas.html', {'form': form, 'baja': baja, 'is_ledesma': is_ledesma})
+
 
 @login_required
 def crear_anexoA(request, id):
@@ -487,6 +525,7 @@ def crear_anexoA(request, id):
 
     context = {
         'baja': baja,
+        'usuario': request.user,
         "logo_etecsa": request.build_absolute_uri(static('bajastecnicas/icons/etecsa_logo.jpeg'))
     }
 
@@ -503,16 +542,18 @@ def crear_anexoA(request, id):
         # Guardar la ruta del archivo PDF en el modelo
         baja.archivo_anexo_a = pdf_path
         baja.listopara_anexo_A2 = True
-        
+
         baja.save()
 
         print(f"PDF generado con éxito y guardado en: {pdf_path}")
 
-        return redirect('bajas:list')  # Redirigir al listado de bajas después de crear el PDF
+        # Redirigir al listado de bajas después de crear el PDF
+        return redirect('bajas:list')
 
     except Exception as e:
         print(f"Error al generar el PDF: {e}")
         return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF'})
+
 
 @login_required
 def trabajar_anexoA1(request, id):
@@ -521,7 +562,7 @@ def trabajar_anexoA1(request, id):
 
     if request.method == 'POST':
         form = BajasForm(request.POST, request.FILES, instance=baja)
-        if form.is_valid():  
+        if form.is_valid():
             baja = form.save(commit=False)
             baja.informacion_anexo_a1_completa = True
             baja.save()
@@ -530,6 +571,7 @@ def trabajar_anexoA1(request, id):
         form = BajasForm(instance=baja)
 
     return render(request, 'bajas/editar_bajas.html', {'form': form, 'baja': baja, 'is_ledesma': is_ledesma})
+
 
 @login_required
 def crear_anexoA1(request, id):
@@ -543,6 +585,7 @@ def crear_anexoA1(request, id):
 
     context = {
         'baja': baja,
+        'usuario': request.user,
         "logo_etecsa": request.build_absolute_uri(static('bajastecnicas/icons/etecsa_logo.jpeg'))
     }
 
@@ -559,16 +602,17 @@ def crear_anexoA1(request, id):
         # Guardo la ruta del archivo PDF en el modelo
         baja.archivo_anexo_a1 = pdf_path_a1
         baja.listopara_anexo_A = True
-        
+
         baja.save()
 
         print(f"PDF generado con éxito y guardado en: {pdf_path_a1}")
 
-        return redirect('bajas:list') 
+        return redirect('bajas:list')
 
     except Exception as e:
         print(f"Error al generar el PDF: {e}")
         return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF'})
+
 
 @login_required
 def trabajar_anexoA2(request, id):
@@ -577,7 +621,7 @@ def trabajar_anexoA2(request, id):
 
     if request.method == 'POST':
         form = BajasForm(request.POST, request.FILES, instance=baja)
-        if form.is_valid():  
+        if form.is_valid():
             baja = form.save(commit=False)
             baja.informacion_anexo_a2_completa = True
             baja.save()
@@ -587,6 +631,7 @@ def trabajar_anexoA2(request, id):
 
     return render(request, 'bajas/editar_bajas.html', {'form': form, 'baja': baja, 'is_ledesma': is_ledesma})
 
+
 @login_required
 def crear_anexoA2(request, id):
     baja = get_object_or_404(Bajas, pk=id)  # Obtener la baja
@@ -594,37 +639,107 @@ def crear_anexoA2(request, id):
         # Si la información no ha sido completada, redirigir o mostrar un error
         return redirect('bajas:trabajar_anexoA2', id=id)
 
-    # Generación del PDF
-    print(f"Generando PDF para Anexo A2...")
+    # ya aqui no genero pdf ya que no es unico de cada baja
+    #aqui lo unico que quiero que haga esta funcion
+    print(f"completando anexo A2 info...")
+    baja.listopara_anexo_A3 = True
+    baja.save()
+    #fin de la funcion
+
+    # context = {
+    #     'baja': baja,
+    #     "logo_etecsa": request.build_absolute_uri(static('bajastecnicas/icons/etecsa_logo.jpeg'))
+    # }
+
+    # html_string_a2 = render_to_string('bajas/anexo_a2.html', context)
+
+    # pdf_path_a2 = f'anexos/anexo_{baja.id}_A2.pdf'
+    # try:
+    #     with default_storage.open(pdf_path_a2, 'wb') as pdf_file:
+    #         pisa_status = pisa.CreatePDF(html_string_a2, dest=pdf_file)
+
+    #         if pisa_status.err:
+    #             raise Exception("Error al generar el PDF")
+
+    #     # Guardar la ruta del archivo PDF en el modelo
+    #     baja.archivo_anexo_a2 = pdf_path_a2
+    #     baja.listopara_anexo_A3 = True
+
+    #     baja.save()
+
+    #     print(f"PDF generado con éxito y guardado en: {pdf_path_a2}")
+
+    #     # Redirigir al listado de bajas después de crear el PDF
+    #     return redirect('bajas:list')
+
+    # except Exception as e:
+    #     print(f"Error al generar el PDF: {e}")
+    #     return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF'})
+    return redirect('bajas:list')
+
+@login_required
+def crear_anexo2(request):
+    # Filtrar bajas que cumplen las condiciones
+    bajas_filtradas = Bajas.objects.filter(rechazada=False, listopara_anexo_A2=True, listopara_anexo_A3=False,terminada=False)
+
+    if not bajas_filtradas.exists():
+        return render(request, 'bajas/error.html', {'mensaje': 'No existen bajas disponibles para generar el Anexo 2.'})
+
+    print("Generando PDF para Anexo 2...")
 
     context = {
-        'baja': baja,
-        "logo_etecsa": request.build_absolute_uri(static('bajastecnicas/icons/etecsa_logo.jpeg'))
-    }
+        'bajas': bajas_filtradas,
+        'usuario': request.user
+        }
+    html_string = render_to_string('bajas/anexo2_template.html', context)
 
-    html_string_a2 = render_to_string('bajas/anexo_a2.html', context)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="anexo_2.pdf"'
 
-    pdf_path_a2 = f'anexos/anexo_{baja.id}_A2.pdf'
-    try:
-        with default_storage.open(pdf_path_a2, 'wb') as pdf_file:
-            pisa_status = pisa.CreatePDF(html_string_a2, dest=pdf_file)
+    result = BytesIO()
+    pisa_status = pisa.CreatePDF(html_string, dest=result)
 
-            if pisa_status.err:
-                raise Exception("Error al generar el PDF")
+    if pisa_status.err:
+        print(f"Error al generar el PDF de Anexo 2: {pisa_status.err}")
+        return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF de Anexo 2'})
 
-        # Guardar la ruta del archivo PDF en el modelo
-        baja.archivo_anexo_a2 = pdf_path_a2
-        baja.listopara_anexo_A3 = True
-        
-        baja.save()
+    print("PDF de Anexo 2 generado con éxito. Iniciando descarga.")
+    response.write(result.getvalue())
+    return response
 
-        print(f"PDF generado con éxito y guardado en: {pdf_path_a2}")
+@login_required
+def crear_anexo3(request):
+    # Filtrar bajas que cumplen las condiciones
+    bajas_filtradas = Bajas.objects.filter(rechazada=False, listopara_anexo_A3=True, terminada=False)
 
-        return redirect('bajas:list')  # Redirigir al listado de bajas después de crear el PDF
+    if not bajas_filtradas.exists():
+        return render(request, 'bajas/error.html', {'mensaje': 'No existen bajas disponibles para generar el Anexo 3.'})
 
-    except Exception as e:
-        print(f"Error al generar el PDF: {e}")
-        return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF'})
+    print("Generando PDF para Anexo 3...")
+
+    context = {
+        'bajas': bajas_filtradas,
+        'usuario': request.user
+        }
+    html_string = render_to_string('bajas/anexo3_template.html', context)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="anexo_3.pdf"'
+
+    result = BytesIO()
+    pisa_status = pisa.CreatePDF(html_string, dest=result)
+
+    if pisa_status.err:
+        print(f"Error al generar el PDF de Anexo 3: {pisa_status.err}")
+        return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF de Anexo 3'})
+
+    print("PDF de Anexo 3 generado con éxito. Iniciando descarga.")
+    response.write(result.getvalue())
+    return response
+
+
+
+
 @login_required
 def trabajar_anexoA3(request, id):
     baja = get_object_or_404(Bajas, pk=id)
@@ -632,7 +747,7 @@ def trabajar_anexoA3(request, id):
 
     if request.method == 'POST':
         form = BajasForm(request.POST, request.FILES, instance=baja)
-        if form.is_valid():  
+        if form.is_valid():
             baja = form.save(commit=False)
             baja.informacion_anexo_a3_completa = True
             baja.save()
@@ -651,37 +766,42 @@ def crear_anexoA3(request, id):
         return redirect('bajas:trabajar_anexoA3', id=id)
 
     # Generación del PDF
-    print(f"Generando PDF para Anexo A3...")
-
-    context = {
-        'baja': baja,
-        "logo_etecsa": request.build_absolute_uri(static('bajastecnicas/icons/etecsa_logo.jpeg'))
-    }
-
-    html_string_a3 = render_to_string('bajas/anexo_a3.html', context)
-
-    pdf_path_a3 = f'anexos/anexo_{baja.id}_A3.pdf'
-    try:
-        with default_storage.open(pdf_path_a3, 'wb') as pdf_file:
-            pisa_status = pisa.CreatePDF(html_string_a3, dest=pdf_file)
-
-            if pisa_status.err:
-                raise Exception("Error al generar el PDF")
-
-        # Guardar la ruta del archivo PDF en el modelo
-        baja.archivo_anexo_a3 = pdf_path_a3
-        
-        
-        baja.save()
-
-        print(f"PDF generado con éxito y guardado en: {pdf_path_a3}")
-
-        return redirect('bajas:list')  # Redirigir al listado de bajas después de crear el PDF
-
-    except Exception as e:
-        print(f"Error al generar el PDF: {e}")
-        return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF'})
     
+    print(f"completando anexo A3 info...")
+    baja.terminada = True
+    baja.save()
+
+    #hasta aqui lo de esta func
+
+    # context = {
+    #     'baja': baja,
+    #     "logo_etecsa": request.build_absolute_uri(static('bajastecnicas/icons/etecsa_logo.jpeg'))
+    # }
+
+    # html_string_a3 = render_to_string('bajas/anexo_a3.html', context)
+
+    # pdf_path_a3 = f'anexos/anexo_{baja.id}_A3.pdf'
+    # try:
+    #     with default_storage.open(pdf_path_a3, 'wb') as pdf_file:
+    #         pisa_status = pisa.CreatePDF(html_string_a3, dest=pdf_file)
+
+    #         if pisa_status.err:
+    #             raise Exception("Error al generar el PDF")
+
+    #     # Guardar la ruta del archivo PDF en el modelo
+    #     baja.archivo_anexo_a3 = pdf_path_a3
+
+    #     baja.save()
+
+    #     print(f"PDF generado con éxito y guardado en: {pdf_path_a3}")
+
+    #     return redirect('bajas:list')  # Redirigir al listado de bajas después de crear el PDF
+
+    # except Exception as e:
+    #     print(f"Error al generar el PDF: {e}")
+    #     return render(request, 'bajas/error.html', {'mensaje': 'Error al generar el PDF'})
+    return redirect('bajas:list')
+
 @login_required
 def cargar_excel_inv(request):
     if request.method == 'POST':
@@ -689,11 +809,11 @@ def cargar_excel_inv(request):
 
         if not archivo:
             messages.error(request, "No se seleccionó ningún archivo.")
-            return redirect('bajas:cargar_excel_inv') 
+            return redirect('bajas:cargar_excel_inv')
 
         if archivo.name != 'inventario.xlsx':
             messages.warning(request, "El archivo debe llamarse exactamente 'inventario.xlsx'.")
-            return redirect('bajas:cargar_excel_inv')  
+            return redirect('bajas:cargar_excel_inv')
 
         ruta_guardado = os.path.join(settings.MEDIA_ROOT, 'uploaded', 'inventario.xlsx')
         os.makedirs(os.path.dirname(ruta_guardado), exist_ok=True)
@@ -703,14 +823,12 @@ def cargar_excel_inv(request):
                 for chunk in archivo.chunks():
                     destino.write(chunk)
 
-           
             messages.success(request, "El archivo fue cargado correctamente.")
-            return redirect('bajas:cargar_excel_inv') 
+            return redirect('bajas:cargar_excel_inv')
 
         except Exception as e:
             # Si ocurre un error en el proceso de carga, mostramos el mensaje de error
             messages.error(request, f"Ocurrió un error al cargar el archivo: {str(e)}")
-            return redirect('bajas:cargar_excel_inv')  
+            return redirect('bajas:cargar_excel_inv')
 
     return render(request, 'bajas/cargar_excel_inv.html')
-

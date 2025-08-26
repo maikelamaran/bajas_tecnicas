@@ -3,7 +3,8 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from . import choices
-
+import time
+from django.utils.timezone import now
 # Create your models here.
 from django.db import models
 
@@ -37,8 +38,8 @@ class Bajas(models.Model):
     archivo_anexo_a2 = models.FileField(upload_to='anexos/', blank=True, null=True)
     archivo_anexo_a3 = models.FileField(upload_to='anexos/', blank=True, null=True)
     # anexo_a2 = models.TextField(blank=True)  
-    # anexo_a3 = models.TextField(blank=True)    
-    archivo_mov_aft = models.FileField(upload_to='anexos/', blank=True, null=True)
+    # anexo_a3 = models.TextField(blank=True)  
+    
     anexo_0aprobado = models.BooleanField(default=True)
     listopara_anexo_A = models.BooleanField(default=False)#esto lo lleno en el proceso de crear el anterior anexo
     listopara_anexo_A1 = models.BooleanField(default=False)
@@ -54,6 +55,8 @@ class Bajas(models.Model):
     aprobado_anexoA3 = models.BooleanField(default=False)
     responsable = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     rechazada = models.BooleanField(default=False)
+    terminada = models.BooleanField(default=False)
+    no_solicitud = models.CharField(max_length=20, unique=True, blank=True, null=True)
 
 
     #de esta forma hago que las propiedades anexo_a, anexo_a1, a2, y a3 sean computados,
@@ -78,13 +81,11 @@ class Bajas(models.Model):
     def anexo_a3(self):
         return 'si' if self.archivo_anexo_a3 else 'no' 
     
-    @property
-    def mov_aft(self):
-        return 'si' if self.archivo_mov_aft else 'no'
+   
 
-    def save(self, *args, **kwargs):
+    # def save(self, *args, **kwargs):
         # Lógica de guardado adicional si es necesario
-        super().save(*args, **kwargs)
+        # super().save(*args, **kwargs)
     # def save(self, *args, **kwargs):
     #     if self.archivo_anexo_a:
     #         # Cambiar el nombre del archivo basado en el número de inventario, por ejemplo
@@ -92,6 +93,13 @@ class Bajas(models.Model):
     #         self.archivo_anexo_a.name = f"{self.no_inv}_anexoA{ext}"
     #     super().save(*args, **kwargs)
 
+    def save(self, *args, **kwargs):
+        if not self.no_solicitud:
+            timestamp = int(time.time())  # Número de segundos desde 1970
+            year = now().year
+            self.no_solicitud = f"{year}{timestamp}"
+        super().save(*args, **kwargs)
+        
     def __str__(self):
         return f"Baja de {self.denominacion_SAP}"
 

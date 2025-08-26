@@ -71,6 +71,7 @@
                             $('#id_denominacion_SAP').val(data.denominacion_SAP);
                             $('#id_valor_residual').val(data.valor_residual);
                             $('#id_años_explotacion').val(data.años_explotacion);                            
+                            $('#id_fecha_solicitud').val(data.fecha_solicitud);                            
                             $('#id_inm_herramienta').val(data.inm_herramienta);
                             $('#id_area_pertenece').val(data.area_pertenece);
                         }
@@ -82,6 +83,69 @@
             }
         });
     });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const motivoSelect = document.getElementById("id_motivo_baja");
+        const detalleSelect = document.getElementById("id_detalle");
+
+        const opciones = {
+            "Obsolescencia": [
+                ["OBSOLETO REUTILIZABLE", "OBSOLETO REUTILIZABLE"],
+                ["OBSOLETO NO REUTILIZABLE", "OBSOLETO NO REUTILIZABLE"]
+            ],
+            "deterioro": [
+                ["DETERIORADO ÚTIL", "DETERIORADO ÚTIL"],
+                ["DETERIORADO NO ÚTIL", "DETERIORADO NO ÚTIL"]
+            ]
+        };
+
+        motivoSelect.addEventListener("change", function() {
+            const motivo = this.value;
+            detalleSelect.innerHTML = ""; // limpia las opciones
+
+            let option = document.createElement("option");
+            option.value = "";
+            option.textContent = "Elija uno";
+            detalleSelect.appendChild(option);
+
+            if (opciones[motivo]) {
+                opciones[motivo].forEach(function(det) {
+                    let opt = document.createElement("option");
+                    opt.value = det[0];
+                    opt.textContent = det[1];
+                    detalleSelect.appendChild(opt);
+                });
+            }
+        });
+    });
+</script>
+<!--para no poder escribir nada en argumento deteriorado u obsoleto si el motivo que escogiste es el otro-->
+<script>
+$(function () {
+  const $motivo = $('#id_motivo_baja');
+  const $argDet = $('#id_argumento_deteriorado');
+  const $argObs = $('#id_argumento_obsoleto');
+
+  function toggleArgs() {
+    const v = ($motivo.val() || '').toLowerCase();
+
+    if (v === 'obsolescencia') {
+      $argDet.prop('disabled', true).val('').removeAttr('required');
+      $argObs.prop('disabled', false).attr('required', true);
+    } else if (v === 'deterioro') {
+      $argObs.prop('disabled', true).val('').removeAttr('required');
+      $argDet.prop('disabled', false).attr('required', true);
+    } else {
+      // Sin selección: ambos habilitados y no requeridos
+      $argDet.prop('disabled', false).removeAttr('required');
+      $argObs.prop('disabled', false).removeAttr('required');
+    }
+  }
+
+  $motivo.on('change', toggleArgs);
+  toggleArgs(); // estado inicial (útil al editar)
+});
 </script>
 
 {% endblock %}

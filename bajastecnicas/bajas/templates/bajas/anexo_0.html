@@ -49,19 +49,36 @@
         td .valor {
           width: 67%;
         }
-        .tabla_footer td {
-          width: 25%; /* Todas las celdas de 4 columnas ocupan el 33% */
+        
+        #tablausoactual td:empty::before {
+            content: "\00a0";
         }
-        #tablafooter tbody td:empty {
-          min-height: 40px;
-          background-color: #f8f8f8;
+        #tabladestinofinal td:empty::before {
+            content: "\00a0";
         }
-        #tablafooter tbody tr {
-          height: 40px;
+        #tablafooter {
+            table-layout: fixed;
+            width: 100%;
+            margin-top: 20px;
+        }
+        #tablafooter th, #tablafooter td {
+            width: 33%;
+            height: 40px;
+            text-align: center;
+        }
+        #tablafooter td:empty::before {
+            content: "\00a0";
+        }
+        .grey-background {
+            background-color: #d3d3d3;
+            text-align: center;
         }
       </style>
   </head>
   <body>
+    <div style="text-align: right; font-size: 10px; margin-bottom: 10px;">
+      Creado por: {{ usuario.username }}
+    </div>
     <h2 class="title">ANEXO A0</h2>
 
     <!-- Primera tabla -->
@@ -87,7 +104,7 @@
         <td>Fecha</td>
         <td>{{ baja.date }}</td>
         <td>No. Solicitud</td>
-        <td></td>
+        <td>{{ baja.no_solicitud }}</td>
         <!-- Por ahora en blanco -->
       </tr>
       <tr>
@@ -120,32 +137,39 @@
     </table>
 
     <!-- Cuarta tabla -->
-    <table>
-      <tr>
-        <td>Uso actual</td>
-      </tr>
-      <tr>
-        <td>{{ baja.uso_actual }}</td>
-      </tr>
+    <table id="tablausoactual">
+            <tr>
+                <td class="background-gris-nocenter">Uso actual:</td>
+            </tr>
+            <tr>
+                <td style="min-height: 40px;">
+                    {{ baja.uso_actual|default:"&nbsp;"|safe }}
+                </td>
+            </tr>
     </table>
 
     <!-- Quinta tabla -->
-    <table>
-      <tr>
-        <td>Propuesta de destino final</td>
-      </tr>
-      <tr>
-        <td>{{ baja.destino_final }}</td>
-      </tr>
+    
+    <table id="tabladestinofinal">
+            <tr>
+                <td class="background-gris-nocenter">Propuesta de destino final:</td>
+            </tr>
+            <tr>
+                <td style="min-height: 40px;">
+                    {{ baja.destino_final|default:"&nbsp;"|safe }}
+                </td>
+            </tr>
     </table>
 
-    <table
+    {% comment %} <table
       style="width: 100%; border-collapse: collapse"
       class="row-with-four-columns"
       colspan="4"
-    >
+    > {% endcomment %}
+    <table id="tablafooter">
       <thead>
-        <tr class="grey-background full-width">
+        {% comment %} <tr class="grey-background full-width"> {% endcomment %}
+        <tr class="grey-background">
           <th>Nombre</th>
           <th>Cargo</th>
           <th>Firma</th>
@@ -157,21 +181,7 @@
           <td></td>
           <td></td>
         </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        
       </tbody>
     </table>
   </body>

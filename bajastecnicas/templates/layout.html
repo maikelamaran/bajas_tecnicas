@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   {% load static %}
@@ -57,7 +56,11 @@
       .nav-item form {
         display: inline;
       }
-
+      .dropdown-menu .dropdown-item:hover,
+      .dropdown-menu .dropdown-item:focus {
+        background-color: #0d6efd; /* azul bootstrap */
+        color: #fff !important;    /* letras blancas */
+      }
     </style>
 
     <title>{% block title %} Control Solicitudes{% endblock %}</title>
@@ -69,7 +72,7 @@
       <div class="container">
         {% if user.is_authenticated %}
           <span class="nav-item">
-                  <span class="nav-link">Bienvenido: {{ user.username }}</span>
+            <span class="nav-link">Bienvenido: {{ user.username }}</span>
           </span>
         {% endif %}
         <button
@@ -86,16 +89,63 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
             <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
-             {% if user.is_authenticated %}
-              <li class="nav-item">
+            {% if user.is_authenticated %}
+              {% comment %} <li class="nav-item">
                 <a class="nav-link" href="{% url 'bajas:list' %}">Solicitudes</a>
+              </li> {% endcomment %}
+              <li class="nav-item dropdown">
+                <a 
+                  class="nav-link dropdown-toggle" 
+                  href="#" 
+                  id="otrasSolicitudesDropdown" 
+                  role="button" 
+                  data-bs-toggle="dropdown" 
+                  aria-expanded="false">
+                  Solicitudes
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="otrasSolicitudesDropdown">
+                  <li>
+                    <a class="dropdown-item" href="{% url 'bajas:list' %}">Todas</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'bajas:list' %}?rechazada=False&listopara_anexo_A2=True&listopara_anexo_A3=False">Solicitudes Anexo 2</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'bajas:list' %}?rechazada=False&listopara_anexo_A3=True&terminada=False">Solicitudes Anexo 3</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'bajas:list' %}?terminada=True">Solicitudes Terminadas</a>
+                  </li>
+                  <!-- Aquí podrás agregar más opciones en el futuro -->
+                </ul>
               </li>
-           
+              <!-- Reemplazo de los links individuales por un dropdown -->
+              <li class="nav-item dropdown">
+                <a 
+                  class="nav-link dropdown-toggle" 
+                  href="#" 
+                  id="otrasAccionesDropdown" 
+                  role="button" 
+                  data-bs-toggle="dropdown" 
+                  aria-expanded="false">
+                  Otras Acciones
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="otrasAccionesDropdown">
+                  <li>
+                    <a class="dropdown-item" href="{% url 'bajas:crear-anexo2' %}">Crear PDF Anexo 2</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'bajas:crear-anexo3' %}">Crear PDF Anexo 3</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{% url 'bajas:crear-baja' %}">Crear Solicitud</a>
+                  </li>
+                  <!-- Aquí podrás agregar más opciones en el futuro -->
+                </ul>
+              </li>
+
               {% comment %} {% if user.username == 'ledesma' %} {% endcomment %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'bajas:crear-baja' %}">Crear Solicitud</a>
-              </li>
-             
+              {% comment %} Anterior link "Crear Solicitud" removido y movido al dropdown {% endcomment %}
               {% comment %} {% endif %} {% endcomment %}
             {% else %}
               {% comment %} <li class="nav-item">
@@ -117,11 +167,11 @@
                 </li>
               {% endif %}
               {% if puede_admin_roles %}
-              <li class="nav-item">
-                <a class="btn btn-warning mx-2" href="{% url 'users:manage_roles' %}">
-                  Administrar roles
-                </a>
-              </li>
+                <li class="nav-item">
+                  <a class="btn btn-warning mx-2" href="{% url 'users:manage_roles' %}">
+                    Administrar roles
+                  </a>
+                </li>
               {% endif %}
               <li class="nav-item">
                 <form action="{% url 'users:logout' %}" method="post">
